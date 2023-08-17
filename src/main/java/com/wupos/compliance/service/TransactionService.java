@@ -77,4 +77,46 @@ public class TransactionService {
         }
         return true;
     }
+
+    // crud methods
+    public List<Transaction> getAllTransactions() {
+        return transactionDAO.findAll();
+    }
+
+    public Transaction getTransactionById(Long id) {
+        return transactionDAO.findById().orElse(null);
+    }
+
+    public boolean createTransaction(Transaction transaction) {
+        try {
+            transactionDAO.save(transaction);
+            return true;
+
+        } catch (DataAccessException e) {
+            return false;
+        }
+    }
+
+    public boolean updateTransaction(Long id, Transaction updatedTransaction) {
+        Transaction existingTransaction = transactionDAO.findById(id);
+
+        if (existingTransaction != null) {
+            transactionDAO.save(updatedTransaction);
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
+    public boolean deleteTransaction(Long id) {
+        try {
+            transactionDAO.deleteById(id);
+            return true;
+
+        } catch (DataAccessException e) {
+            return false;
+        }
+    }
+
 }

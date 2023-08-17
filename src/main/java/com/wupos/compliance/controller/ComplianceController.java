@@ -9,19 +9,19 @@ public class ComplianceController {
     private TransactionService transactionService;
 
     @GetMapping("/sendMoney")
-    public String sendMoneyValidation(@RequestBody Transaction transaction){
+    public ResponseEntity<String> sendMoneyValidation(@RequestBody Transaction transaction) {
+        if (transactionService.validateTransaction(transaction.getId())) {
+            return ResponseEntity.badRequest().body("Invalid transaction ID");
 
-        if(transactionService.validateTransaction(transaction.getId())){
-            return //error code
-        }
-        else if(transactionService.validateMonthlyLimitAmount(transaction)){
-            return //error code
-        }
-        else if(transactionService.validateMonthlyLimitNumber(tra){
-            return //error code
-        }
-        else{
-            success();
+        } else if (transactionService.validateMonthlyLimitAmount(transaction)) {
+            return ResponseEntity.badRequest().body("Exceeded monthly limit amount");
+
+        } else if (transactionService.validateMonthlyLimitNumber(transaction)) {
+            return ResponseEntity.badRequest().body("Exceeded number of monthly transactions");
+
+        } else {
+            // success();
+            return ResponseEntity.ok("Transaction successfully validated");
         }
     }
 }

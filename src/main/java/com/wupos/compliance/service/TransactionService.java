@@ -77,4 +77,28 @@ public class TransactionService {
         }
         return true;
     }
+
+    public List<Transaction> getAllTransactions() {
+        return null;
+    }
+
+    public Transaction getTransactionById(Long id) {
+        return null;
+    }
+
+    public boolean createTransaction(Transaction transaction) {
+        return false;
+    }
+
+    public boolean processTransaction(Transaction transaction) {
+        return false;
+    }
+
+    public boolean updateTransaction(Long id, Transaction transaction) {
+        return false;
+    }
+
+    public boolean deleteTransaction(Long id) {
+        return false;
+    }
 }

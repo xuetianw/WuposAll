@@ -1,7 +1,9 @@
-package com.wupos.compliance.entity.Customer;
+package com.wupos.compliance.model.Customer;
+
+import jakarta.persistence.Embeddable;
 
 @Embeddable
-class Compliance {
+public class Compliance {
     private String idType;
     private String idNumber;
     private String idIssueDate;

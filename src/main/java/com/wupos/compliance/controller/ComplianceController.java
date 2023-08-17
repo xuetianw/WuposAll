@@ -1,6 +1,13 @@
 package com.wupos.compliance.controller;
 
+import com.wupos.compliance.model.Transaction;
 import com.wupos.compliance.service.TransactionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
 
 @RestController
 public class ComplianceController {
@@ -9,38 +16,36 @@ public class ComplianceController {
     private TransactionService transactionService;
 
     @GetMapping("/transactions")
-    public ResponseEntity<String> sendMoneyValidation(@RequestBody Transaction transaction) {
-        if (transaction = null) {
-            return return ResponseEntity.notFound().build();
+    public ResponseEntity<String> sendMoneyValidation(@RequestBody  Transaction transaction) {
+        if (transaction == null) {
+            return ResponseEntity.notFound().build();
         }
 
         else if (transactionService.validateTransaction(transaction.getId())) {
             return ResponseEntity.badRequest().body("Invalid transaction ID");
 
-        } else if (transactionService.validateMonthlyLimitAmount(transaction)) {
+        } else if (transactionService.validateMonthlyLimitAmount(transaction.getCustomerEntity())) {
             return ResponseEntity.badRequest().body("Exceeded monthly limit amount");
 
-        } else if (transactionService.validateMonthlyLimitNumber(transaction)) {
+        } else if (transactionService.validateMonthlyLimitNumber(transaction.getCustomerEntity())) {
             return ResponseEntity.badRequest().body("Exceeded number of monthly transactions");
 
         } else {
+            // success();
             return ResponseEntity.ok("Transaction successfully validated");
         }
     }
 
     @GetMapping("/transactions")
     public ResponseEntity<List<Transaction>> getAllTransactions() {
-        List<Transaction> transactions = complianceService.getAllTransactions();
-
-        // no additional message is implemented here, so we don't have to extract the list of transactions
-        // from a nested ResponseEntity structure
+        List<Transaction> transactions = transactionService.getAllTransactions();
         return ResponseEntity.ok(transactions);
     }
 
     @GetMapping("/transactions/{id}")
     public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
-        Transaction transaction = complianceService.getTransactionById(id);
-        if (transaction = null) {
+        Transaction transaction = transactionService.getTransactionById(id);
+        if (transaction == null) {
             return ResponseEntity.notFound().build();
 
         } else {
@@ -50,7 +55,7 @@ public class ComplianceController {
 
     @PostMapping("/transactions")
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
-        boolean created = complianceService.createTransaction(transaction);
+        boolean created = transactionService.createTransaction(transaction);
 
         if (!created) {
             return ResponseEntity.badRequest().body("Failed to create transaction");
@@ -61,11 +66,10 @@ public class ComplianceController {
     }
 
     @PostMapping("/processTransaction")
-    public ResponseEntity<String> processTransaction(@RequestBody Transaction transactionRequest) {
+    public ResponseEntity<String> processTransaction(@RequestBody Transaction transaction) {
         // Deserializes into the DTO
         // ex. String firstName = transactionRequest.getCustomerEntity().getName().getFirstName();
-
-        boolean processed = complianceService.processTransaction(transactionRequest);
+        boolean processed = transactionService.processTransaction(transaction);
 
         if (!processed) {
             return ResponseEntity.badRequest().body("Failed to process transaction");
@@ -74,11 +78,12 @@ public class ComplianceController {
         else {
             return ResponseEntity.ok("Transaction processed successfully");
         }
+
     }
 
     @PutMapping("/transactions/{id}")
     public ResponseEntity<String> updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
-        boolean updated = complianceService.updateTransaction(id, transaction);
+        boolean updated = transactionService.updateTransaction(id, transaction);
 
         if (!updated) {
             return ResponseEntity.notFound().build();
@@ -90,7 +95,7 @@ public class ComplianceController {
 
     @DeleteMapping("/transactions/{id}")
     public ResponseEntity<String> deleteTransaction(@PathVariable Long id) {
-        boolean deleted = complianceService.deleteTransaction(id);
+        boolean deleted = transactionService.deleteTransaction(id);
 
         if (!deleted) {
             return ResponseEntity.notFound().build();

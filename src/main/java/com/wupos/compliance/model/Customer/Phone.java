@@ -1,7 +1,9 @@
-package com.wupos.compliance.entity.Customer;
+package com.wupos.compliance.model.Customer;
+
+import jakarta.persistence.Embeddable;
 
 @Embeddable
-class Phone {
+public class Phone {
     private String countryCode;
     private String number;
 

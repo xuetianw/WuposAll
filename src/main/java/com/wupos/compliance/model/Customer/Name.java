@@ -1,7 +1,9 @@
-package com.wupos.compliance.entity.Customer;
+package com.wupos.compliance.model.Customer;
+
+import jakarta.persistence.Embeddable;
 
 @Embeddable
-class Name {
+public class Name {
     private String firstName;
     private String middleName;
     private String lastName;

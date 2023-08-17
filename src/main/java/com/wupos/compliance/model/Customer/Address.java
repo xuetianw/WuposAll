@@ -1,7 +1,9 @@
-package com.wupos.compliance.entity.Customer;
+package com.wupos.compliance.model.Customer;
+
+import jakarta.persistence.Embeddable;
 
 @Embeddable
-class Address {
+public class Address {
     private String addressLine1;
     private String addressLine2;
     private String pincode;

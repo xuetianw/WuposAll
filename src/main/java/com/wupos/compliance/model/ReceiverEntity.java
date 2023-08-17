@@ -1,6 +1,9 @@
-package com.wupos.compliance.entity;
+package com.wupos.compliance.model;
 
-import javax.persistence.*;
+import com.wupos.compliance.model.Customer.Address;
+import com.wupos.compliance.model.Customer.Name;
+import com.wupos.compliance.model.Customer.Phone;
+import jakarta.persistence.*;
 
 @Entity
 public class ReceiverEntity {

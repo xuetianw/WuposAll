@@ -69,16 +69,13 @@ public class ComplianceController {
     public ResponseEntity<String> processTransaction(@RequestBody Transaction transaction) {
         // Deserializes into the DTO
         // ex. String firstName = transactionRequest.getCustomerEntity().getName().getFirstName();
-        boolean processed = transactionService.processTransaction(transaction);
-
-        if (!processed) {
+        if (transaction = null) {
             return ResponseEntity.badRequest().body("Failed to process transaction");
         }
 
         else {
             return ResponseEntity.ok("Transaction processed successfully");
         }
-
     }
 
     @PutMapping("/transactions/{id}")

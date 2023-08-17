@@ -24,7 +24,6 @@ public class ComplianceController {
             return ResponseEntity.badRequest().body("Exceeded number of monthly transactions");
 
         } else {
-            // success();
             return ResponseEntity.ok("Transaction successfully validated");
         }
     }
@@ -32,6 +31,9 @@ public class ComplianceController {
     @GetMapping("/transactions")
     public ResponseEntity<List<Transaction>> getAllTransactions() {
         List<Transaction> transactions = complianceService.getAllTransactions();
+
+        // no additional message is implemented here, so we don't have to extract the list of transactions
+        // from a nested ResponseEntity structure
         return ResponseEntity.ok(transactions);
     }
 
@@ -59,12 +61,19 @@ public class ComplianceController {
     }
 
     @PostMapping("/processTransaction")
-    public ResponseEntity<String> processTransaction(@RequestBody TransactionRequest transactionRequest) {
+    public ResponseEntity<String> processTransaction(@RequestBody Transaction transactionRequest) {
         // Deserializes into the DTO
         // ex. String firstName = transactionRequest.getCustomerEntity().getName().getFirstName();
 
-        Long id = transactionRequest.getCustomerEntity.getId();
-        return ResponseEntity.ok("Transaction processed successfully for customer ID: " + id);
+        boolean processed = complianceService.processTransaction(transactionRequest);
+
+        if (!processed) {
+            return ResponseEntity.badRequest().body("Failed to process transaction");
+        }
+
+        else {
+            return ResponseEntity.ok("Transaction processed successfully");
+        }
     }
 
     @PutMapping("/transactions/{id}")

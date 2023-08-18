@@ -15,14 +15,14 @@ public class ComplianceController {
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping("/sendMoney")
+    @PostMapping("/sendMoney")
     public ResponseEntity<String> sendMoneyValidation(@RequestBody  Transaction transaction) {
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
 
-        else if (transactionService.validateTransaction(transaction.getId())) {
-            return ResponseEntity.badRequest().body("Invalid transaction ID");
+        else if (transactionService.validateTransaction(transaction)) {
+            return ResponseEntity.badRequest().body("Invalid transaction amount");
 
         } else if (transactionService.validateMonthlyLimitAmount(transaction.getCustomerEntity())) {
             return ResponseEntity.badRequest().body("Exceeded monthly limit amount");

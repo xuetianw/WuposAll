@@ -20,6 +20,7 @@ public class Transaction {
 
     private Date dateAdded;
 
+    public Transaction(){}
     public CustomerEntity getCustomerEntity() {
         return customerEntity;
     }

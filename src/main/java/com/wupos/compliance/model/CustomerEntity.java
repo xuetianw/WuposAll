@@ -27,7 +27,9 @@ public class CustomerEntity {
     @Embedded
     private Compliance compliance;
 
+    public CustomerEntity(){
 
+    }
     public Long getId() {
         return id;
     }

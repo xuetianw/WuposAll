@@ -26,8 +26,8 @@ public class TransactionService {
         this.transactionDAO = transactionDAO;
     }
 
-    public boolean validateTransaction(Long transactionId){
-        PaymentDetailsEntity paymentDetails = transactionDAO.getTransactionById(transactionId).getPaymentDetailsEntity();
+    public boolean validateTransaction(Transaction transaction){
+        PaymentDetailsEntity paymentDetails = transaction.getPaymentDetailsEntity();
         int sentAmount = Integer.parseInt(paymentDetails.getSendAmount()) / BUFFER;
         if(sentAmount > TRANSACTION_LIMIT){ //get number from config
             return false;

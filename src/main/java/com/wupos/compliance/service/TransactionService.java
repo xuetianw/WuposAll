@@ -5,6 +5,7 @@ import com.wupos.compliance.model.CustomerEntity;
 import com.wupos.compliance.model.PaymentDetailsEntity;
 import com.wupos.compliance.model.Transaction;
 import com.wupos.compliance.repo.TransactionDAO;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -84,7 +85,7 @@ public class TransactionService {
     }
 
     public Transaction getTransactionById(Long id) {
-        return transactionDAO.findById().orElse(null);
+        return transactionDAO.findTransactionById(id);
     }
 
     public boolean createTransaction(Transaction transaction) {
@@ -98,7 +99,7 @@ public class TransactionService {
     }
 
     public boolean updateTransaction(Long id, Transaction updatedTransaction) {
-        Transaction existingTransaction = transactionDAO.findById(id);
+        Transaction existingTransaction = transactionDAO.findTransactionById(id);
 
         if (existingTransaction != null) {
             transactionDAO.save(updatedTransaction);

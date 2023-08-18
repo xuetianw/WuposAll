@@ -1,11 +1,18 @@
 package com.wupos.compliance.model.Customer;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Name {
+
+    @Column
     private String firstName;
+
+    @Column
     private String middleName;
+
+    @Column
     private String lastName;
 
 

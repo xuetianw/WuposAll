@@ -1,12 +1,18 @@
 package com.wupos.compliance.model.Customer;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Compliance {
+
+    @Column
     private String idType;
+    @Column
     private String idNumber;
+    @Column
     private String idIssueDate;
+    @Column
     private String idExpiryDate;
 
 

@@ -1,14 +1,24 @@
 package com.wupos.compliance.model.Customer;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Address {
+
+    @Column
     private String addressLine1;
+
+    @Column
     private String addressLine2;
+
+    @Column
     private String pincode;
+    @Column
     private String city;
+    @Column
     private String state;
+    @Column
     private String country;
 
 

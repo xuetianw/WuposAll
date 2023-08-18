@@ -15,7 +15,7 @@ public class ComplianceController {
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping("/transactions")
+    @GetMapping("/sendMoney")
     public ResponseEntity<String> sendMoneyValidation(@RequestBody  Transaction transaction) {
         if (transaction == null) {
             return ResponseEntity.notFound().build();
@@ -69,7 +69,7 @@ public class ComplianceController {
     public ResponseEntity<String> processTransaction(@RequestBody Transaction transaction) {
         // Deserializes into the DTO
         // ex. String firstName = transactionRequest.getCustomerEntity().getName().getFirstName();
-        if (transaction = null) {
+        if (transaction == null) {
             return ResponseEntity.badRequest().body("Failed to process transaction");
         }
 

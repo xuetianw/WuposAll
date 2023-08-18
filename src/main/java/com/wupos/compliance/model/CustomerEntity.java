@@ -7,10 +7,13 @@ import com.wupos.compliance.model.Customer.Phone;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Customer")
+@Embeddable
 public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
 
     @Embedded
     private Name name;

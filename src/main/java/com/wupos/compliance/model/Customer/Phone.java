@@ -1,10 +1,14 @@
 package com.wupos.compliance.model.Customer;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Phone {
+
+    @Column
     private String countryCode;
+    @Column
     private String number;
 
 

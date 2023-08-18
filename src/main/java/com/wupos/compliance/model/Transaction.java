@@ -1,12 +1,21 @@
 package com.wupos.compliance.model;
 
+import jakarta.persistence.*;
+
 import java.util.Date;
 
+@Entity
+@Table(name = "Transaction")
 public class Transaction {
 
+    @Id
     private Long id;
+
+    @ManyToOne
     private  CustomerEntity customerEntity;
+    @OneToOne
     private PaymentDetailsEntity paymentDetailsEntity;
+    @OneToOne
     private ReceiverEntity receiverEntity;
 
     private Date dateAdded;

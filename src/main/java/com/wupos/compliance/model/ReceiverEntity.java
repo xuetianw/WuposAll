@@ -6,6 +6,7 @@ import com.wupos.compliance.model.Customer.Phone;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "Receiver")
 public class ReceiverEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

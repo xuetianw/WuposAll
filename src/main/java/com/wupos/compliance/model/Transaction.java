@@ -1,5 +1,6 @@
 package com.wupos.compliance.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -62,6 +63,7 @@ public class Transaction {
     public void setDateAdded(LocalDate dateAdded) {
         this.dateAdded = dateAdded;
     }
+    @JsonProperty("PCP")
     public String getPCP() {
         return PCP;
     }

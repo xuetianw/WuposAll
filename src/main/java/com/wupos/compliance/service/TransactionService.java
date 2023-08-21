@@ -15,7 +15,7 @@ import java.util.List;
 public class TransactionService {
     //transactions repo
     private static final int BUFFER = 100;
-    private static final int TRANSACTION_LIMIT = 3000;
+    private static final int TRANSACTION_LIMIT = 1000;
     private static final int TRANSACTION_MONTHLY_AMOUNT_LIMIT = 1000;
     private static final int TRANSACTION_NUMBER_LIMIT = 1;
     private TransactionDAO transactionDAO;
@@ -37,7 +37,6 @@ public class TransactionService {
 
 
     public boolean validateMonthlyLimitAmount(Customer customer, String pcp){
-        //repo.getTransactionsByUser
         //System.out.println(pcp.getPcpCode();
         List<Transaction> userTransactions = transactionDAO.getTransactionsByCustomer(customer);
         LocalDate today = LocalDate.now();

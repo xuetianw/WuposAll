@@ -37,10 +37,10 @@ public class TransactionDAOImpl implements  TransactionDAO{
     @Override
     public List<Transaction> getTransactionsByCustomer(Customer customerEntity) {
         String id = customerEntity.getPCP();
-        TypedQuery<Transaction> query = entityManager.createQuery("Select t from Transaction t where t.pcp= :id", Transaction.class);
+        TypedQuery<Transaction> query = entityManager.createQuery("Select t from Transaction t where t.PCP= :id", Transaction.class);
         query.setParameter("id", customerEntity.getPCP());
         List<Transaction> transactions = query.getResultList();
-        System.out.println(transactions.stream().count());
+        //System.out.println(transactions.stream().count());
         return transactions;
     }
 

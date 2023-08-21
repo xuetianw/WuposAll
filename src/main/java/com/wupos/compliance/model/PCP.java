@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name="PCP")
-@Embeddable
 public class PCP {
 
     @Id
@@ -13,9 +12,7 @@ public class PCP {
     @JsonProperty("PCP")
     private String pcp;
 
-
-
-    public String getPcpCode() {
+    public String getPCP() {
         return pcp;
     }
 

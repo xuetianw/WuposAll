@@ -17,7 +17,6 @@ public class PaymentDetails {
     private String receiverCurrency;
     private String paymentType;
 
-    public PaymentDetailsEntity(){}
     public Long getId() {
         return id;
     }

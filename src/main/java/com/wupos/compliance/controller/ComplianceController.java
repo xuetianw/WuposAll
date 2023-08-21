@@ -17,7 +17,7 @@ public class ComplianceController {
 
     @GetMapping("/sendMoney")
     public ResponseEntity<String> sendMoneyValidation(@RequestBody  Transaction transaction) {
-        System.out.println(transaction.getPcp());
+        System.out.println(transaction.getPCP());
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
@@ -25,8 +25,8 @@ public class ComplianceController {
         else if (transactionService.validateTransaction(transaction.getPaymentDetails())) {
             return ResponseEntity.badRequest().body("Invalid transaction ID");
 
-        } else if (transactionService.validateMonthlyLimitAmount(transaction.getCustomer(), transaction.getPcp())) {
-            System.out.println(transaction.getCustomer());
+        } else if (transactionService.validateMonthlyLimitAmount(transaction.getCustomer(), transaction.getPCP())) {
+            //System.out.println(transaction.getCustomer());
             return ResponseEntity.badRequest().body("Exceeded monthly limit amount");
 
         } else if (transactionService.validateMonthlyLimitNumber(transaction.getCustomer())) {

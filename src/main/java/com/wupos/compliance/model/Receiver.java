@@ -20,7 +20,9 @@ public class Receiver {
 
     @Embedded
     private Address address;
+    public ReceiverEntity(){
 
+    }
 
     public Long getId() {
         return id;

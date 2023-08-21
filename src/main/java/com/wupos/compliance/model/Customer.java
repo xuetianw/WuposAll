@@ -1,20 +1,19 @@
 package com.wupos.compliance.model;
 
-import com.wupos.compliance.model.Customer.Address;
-import com.wupos.compliance.model.Customer.Compliance;
-import com.wupos.compliance.model.Customer.Name;
-import com.wupos.compliance.model.Customer.Phone;
+import com.wupos.compliance.model.CustomerDetails.Address;
+import com.wupos.compliance.model.CustomerDetails.Compliance;
+import com.wupos.compliance.model.CustomerDetails.Name;
+import com.wupos.compliance.model.CustomerDetails.Phone;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Customer")
 @Embeddable
-public class CustomerEntity {
+public class Customer {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-
+    @Column(name = "PCP")
+    private String PCP;
     @Embedded
     private Name name;
 
@@ -28,12 +27,12 @@ public class CustomerEntity {
     private Compliance compliance;
 
 
-    public Long getId() {
-        return id;
+    public String getPCP() {
+        return PCP;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPCP(String PCP) {
+        this.PCP = PCP;
     }
 
     public Name getName() {

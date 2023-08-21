@@ -1,6 +1,6 @@
 package com.wupos.compliance.repo;
 
-import com.wupos.compliance.model.CustomerEntity;
+import com.wupos.compliance.model.Customer;
 import com.wupos.compliance.model.Transaction;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.FluentQuery;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -28,13 +29,18 @@ public class TransactionDAOImpl implements  TransactionDAO{
     @Override
     @Transactional
     public void saveTransaction(Transaction transaction) {
+        LocalDate date = LocalDate.now();
+        transaction.setDateAdded(date);
         entityManager.persist(transaction);
     }
 
     @Override
-    public List<Transaction> getTransactionsByCustomer(CustomerEntity customerEntity) {
-        TypedQuery<Transaction> query = entityManager.createQuery("Select t from Transaction t where t.uid=:id", Transaction.class);
+    public List<Transaction> getTransactionsByCustomer(Customer customerEntity) {
+        String id = customerEntity.getPCP();
+        TypedQuery<Transaction> query = entityManager.createQuery("Select t from Transaction t where t.pcp= :id", Transaction.class);
+        query.setParameter("id", customerEntity.getPCP());
         List<Transaction> transactions = query.getResultList();
+        System.out.println(transactions.stream().count());
         return transactions;
     }
 

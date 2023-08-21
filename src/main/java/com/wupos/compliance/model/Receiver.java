@@ -1,13 +1,13 @@
 package com.wupos.compliance.model;
 
-import com.wupos.compliance.model.Customer.Address;
-import com.wupos.compliance.model.Customer.Name;
-import com.wupos.compliance.model.Customer.Phone;
+import com.wupos.compliance.model.CustomerDetails.Address;
+import com.wupos.compliance.model.CustomerDetails.Name;
+import com.wupos.compliance.model.CustomerDetails.Phone;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "Receiver")
-public class ReceiverEntity {
+public class Receiver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

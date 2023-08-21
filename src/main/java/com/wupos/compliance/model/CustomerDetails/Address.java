@@ -1,4 +1,4 @@
-package com.wupos.compliance.model.Customer;
+package com.wupos.compliance.model.CustomerDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

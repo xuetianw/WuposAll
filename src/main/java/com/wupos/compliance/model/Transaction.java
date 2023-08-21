@@ -1,8 +1,9 @@
 package com.wupos.compliance.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "Transaction")
@@ -12,16 +13,21 @@ public class Transaction {
     private Long id;
 
     @ManyToOne
-    private  CustomerEntity customerEntity;
+    @JoinColumn(name="customer_id")
+    private  Customer customer;
     @OneToOne
-    private PaymentDetailsEntity paymentDetailsEntity;
+    private PaymentDetails paymentDetails;
     @OneToOne
-    private ReceiverEntity receiverEntity;
+    private Receiver receiverEntity;
 
-    private Date dateAdded;
+    private LocalDate dateAdded;
 
-    public CustomerEntity getCustomerEntity() {
-        return customerEntity;
+
+    @JsonProperty("pcp")
+    private String pcp;
+
+    public Customer getCustomer() {
+        return customer;
     }
 
     public Long getId() {
@@ -32,31 +38,38 @@ public class Transaction {
         this.id = id;
     }
 
-    public void setCustomerEntity(CustomerEntity customerEntity) {
-        this.customerEntity = customerEntity;
+    public void setCustomerEntity(Customer customerEntity) {
+        this.customer = customerEntity;
     }
 
-    public PaymentDetailsEntity getPaymentDetailsEntity() {
-        return paymentDetailsEntity;
+    public PaymentDetails getPaymentDetails() {
+        return paymentDetails;
     }
 
-    public void setPaymentDetailsEntity(PaymentDetailsEntity paymentDetailsEntity) {
-        this.paymentDetailsEntity = paymentDetailsEntity;
+    public void setPaymentDetailsEntity(PaymentDetails paymentDetailsEntity) {
+        this.paymentDetails = paymentDetailsEntity;
     }
 
-    public ReceiverEntity getReceiverEntity() {
+    public Receiver getReceiverEntity() {
         return receiverEntity;
     }
 
-    public void setReceiverEntity(ReceiverEntity receiverEntity) {
+    public void setReceiverEntity(Receiver receiverEntity) {
         this.receiverEntity = receiverEntity;
     }
 
-    public Date getDateAdded() {
+    public LocalDate getDateAdded() {
         return dateAdded;
     }
 
-    public void setDateAdded(Date dateAdded) {
+    public void setDateAdded(LocalDate dateAdded) {
         this.dateAdded = dateAdded;
+    }
+    public String getPcp() {
+        return pcp;
+    }
+
+    public void setPcp(String pcp) {
+        this.pcp = pcp;
     }
 }

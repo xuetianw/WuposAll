@@ -17,17 +17,19 @@ public class ComplianceController {
 
     @GetMapping("/sendMoney")
     public ResponseEntity<String> sendMoneyValidation(@RequestBody  Transaction transaction) {
+        System.out.println(transaction.getPcp());
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
 
-        else if (transactionService.validateTransaction(transaction.getId())) {
+        else if (transactionService.validateTransaction(transaction.getPaymentDetails())) {
             return ResponseEntity.badRequest().body("Invalid transaction ID");
 
-        } else if (transactionService.validateMonthlyLimitAmount(transaction.getCustomerEntity())) {
+        } else if (transactionService.validateMonthlyLimitAmount(transaction.getCustomer(), transaction.getPcp())) {
+            System.out.println(transaction.getCustomer());
             return ResponseEntity.badRequest().body("Exceeded monthly limit amount");
 
-        } else if (transactionService.validateMonthlyLimitNumber(transaction.getCustomerEntity())) {
+        } else if (transactionService.validateMonthlyLimitNumber(transaction.getCustomer())) {
             return ResponseEntity.badRequest().body("Exceeded number of monthly transactions");
 
         } else {

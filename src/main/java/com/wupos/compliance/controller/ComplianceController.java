@@ -25,11 +25,11 @@ public class ComplianceController {
         else if (transactionService.validateTransaction(transaction.getPaymentDetails())) {
             return ResponseEntity.badRequest().body("Invalid transaction ID");
 
-        } else if (transactionService.validateMonthlyLimitAmount(transaction.getCustomer(), transaction.getPCP())) {
+        } else if (transactionService.validateMonthlyLimitAmount(transaction)) {
             //System.out.println(transaction.getCustomer());
             return ResponseEntity.badRequest().body("Exceeded monthly limit amount");
 
-        } else if (transactionService.validateMonthlyLimitNumber(transaction.getCustomer())) {
+        } else if (transactionService.validateMonthlyLimitNumber(transaction)) {
             return ResponseEntity.badRequest().body("Exceeded number of monthly transactions");
 
         } else {

@@ -1,7 +1,6 @@
 package com.wupos.compliance.service;
 
 
-import com.wupos.compliance.model.Customer;
 import com.wupos.compliance.model.PaymentDetails;
 import com.wupos.compliance.model.Transaction;
 import com.wupos.compliance.repo.TransactionDAO;
@@ -16,8 +15,8 @@ public class TransactionService {
     //transactions repo
     private static final int BUFFER = 100;
     private static final int TRANSACTION_LIMIT = 1000;
-    private static final int TRANSACTION_MONTHLY_AMOUNT_LIMIT = 1000;
-    private static final int TRANSACTION_NUMBER_LIMIT = 1;
+    private static final int TRANSACTION_MONTHLY_AMOUNT_LIMIT = 10000;
+    private static final int TRANSACTION_NUMBER_LIMIT = 3;
     private TransactionDAO transactionDAO;
     //insert repo
     public TransactionService(TransactionDAO transactionDAO){
@@ -36,18 +35,18 @@ public class TransactionService {
     }
 
 
-    public boolean validateMonthlyLimitAmount(Customer customer, String pcp){
-        //System.out.println(pcp.getPcpCode();
-        List<Transaction> userTransactions = transactionDAO.getTransactionsByCustomer(customer);
+    public boolean validateMonthlyLimitAmount(Transaction transaction){
+        //System.out.println(transaction.getPCP());
+        List<Transaction> userTransactions = transactionDAO.getTransactionsByCustomer(transaction);
         LocalDate today = LocalDate.now();
         LocalDate monthAgo = today.minusDays(30);
 
-        int monthlyTransaction = 0;
+        int monthlyTransaction = Integer.parseInt(transaction.getPaymentDetails().getSendAmount()) /BUFFER;
 
-        for(Transaction transaction : userTransactions){
-            LocalDate date = transaction.getDateAdded();
+        for(Transaction transactionByUser : userTransactions){
+            LocalDate date = transactionByUser.getDateAdded();
             if(date.isAfter(monthAgo) && date.isBefore(today)){
-                monthlyTransaction += Integer.parseInt(transaction.getPaymentDetails().getSendAmount());
+                monthlyTransaction += Integer.parseInt(transactionByUser.getPaymentDetails().getSendAmount());
             }
 
             if(monthlyTransaction > TRANSACTION_MONTHLY_AMOUNT_LIMIT){
@@ -58,16 +57,16 @@ public class TransactionService {
         return false;
     }
 
-    public boolean validateMonthlyLimitNumber(Customer customer){
+    public boolean validateMonthlyLimitNumber(Transaction transaction){
         //repo.getTransactionsByUser
-        List<Transaction> userTransactions = transactionDAO.getTransactionsByCustomer(customer);
+        List<Transaction> userTransactions = transactionDAO.getTransactionsByCustomer(transaction);
         LocalDate today = LocalDate.now();
         LocalDate monthAgo = today.minusDays(30);
 
-        int monthlyTransaction = 0;
+        int monthlyTransaction = 1;
 
-        for(Transaction transaction : userTransactions){
-            LocalDate date = transaction.getDateAdded();
+        for(Transaction t : userTransactions){
+            LocalDate date = t.getDateAdded();
             if(date.isAfter(monthAgo) && date.isBefore(today)){
                 monthlyTransaction++;
             }

@@ -1,9 +1,7 @@
 package com.wupos.compliance.repo;
 
-import com.wupos.compliance.model.Customer;
 import com.wupos.compliance.model.Transaction;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -34,14 +32,16 @@ public class TransactionDAOImpl implements  TransactionDAO{
         entityManager.persist(transaction);
     }
 
+
     @Override
-    public List<Transaction> getTransactionsByCustomer(Customer customerEntity) {
-        String id = customerEntity.getPCP();
-        TypedQuery<Transaction> query = entityManager.createQuery("Select t from Transaction t where t.PCP= :id", Transaction.class);
-        query.setParameter("id", customerEntity.getPCP());
+    public List<Transaction> getTransactionsByCustomer(Transaction transaction) {
+        //String pcp = transaction.getPCP();
+        /**
+        TypedQuery<Transaction> query = entityManager.createQuery("Select t from Transaction t where t.PCP= :PCP", Transaction.class);
+        query.setParameter("pcp", customerEntity.getPCP());
         List<Transaction> transactions = query.getResultList();
-        //System.out.println(transactions.stream().count());
-        return transactions;
+        */
+        return entityManager.createQuery("SELECT t FROM Transaction t WHERE t.PCP = :PCP").setParameter("PCP", transaction.getPCP()).getResultList();
     }
 
     @Override
@@ -103,6 +103,8 @@ public class TransactionDAOImpl implements  TransactionDAO{
     public List<Transaction> findAll() {
         return null;
     }
+
+
 
     @Override
     public List<Transaction> findAllById(Iterable<Long> longs) {

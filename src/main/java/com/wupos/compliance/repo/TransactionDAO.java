@@ -1,6 +1,5 @@
 package com.wupos.compliance.repo;
 
-import com.wupos.compliance.model.Customer;
 import com.wupos.compliance.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,7 +10,7 @@ public interface TransactionDAO extends JpaRepository<Transaction, Long> {
 
     public void saveTransaction(Transaction transaction);
 
-    public List<Transaction> getTransactionsByCustomer(Customer customer);
+    public List<Transaction> getTransactionsByCustomer(Transaction transaction);
     public Transaction getTransactionById(Long transactionId);
 
     public Transaction findTransactionById(Long id);
@@ -19,4 +18,5 @@ public interface TransactionDAO extends JpaRepository<Transaction, Long> {
     void deleteById(Long id);
 
     List<Transaction> findAll();
+
 }

@@ -17,24 +17,27 @@ public class ComplianceController {
 
     @GetMapping("/sendMoney")
     public ResponseEntity<String> sendMoneyValidation(@RequestBody  Transaction transaction) {
+        long id = transaction.getId();
+
         System.out.println(transaction.getPCP());
+
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
 
         else if (transactionService.validateTransaction(transaction.getPaymentDetails())) {
-            return ResponseEntity.badRequest().body("Invalid transaction ID");
+            return ResponseEntity.badRequest().body("Invalid transaction ID for Customer ID: " + id);
 
         } else if (transactionService.validateMonthlyLimitAmount(transaction)) {
             //System.out.println(transaction.getCustomer());
-            return ResponseEntity.badRequest().body("Exceeded monthly limit amount");
+            return ResponseEntity.badRequest().body("Exceeded monthly limit amount for Customer ID: " + id);
 
         } else if (transactionService.validateMonthlyLimitNumber(transaction)) {
-            return ResponseEntity.badRequest().body("Exceeded number of monthly transactions");
+            return ResponseEntity.badRequest().body("Exceeded number of monthly transactions for Customer ID: " + id);
 
         } else {
             // success();
-            return ResponseEntity.ok("Transaction successfully validated");
+            return ResponseEntity.ok("Transaction successfully validated for Customer ID" + id);
         }
     }
 
@@ -58,25 +61,26 @@ public class ComplianceController {
     @PostMapping("/transactions")
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
         boolean created = transactionService.createTransaction(transaction);
+        long id = transaction.getId();
 
         if (!created) {
-            return ResponseEntity.badRequest().body("Failed to create transaction");
+            return ResponseEntity.badRequest().body("Failed to create transaction for Customer ID: " + id);
 
         } else {
-            return ResponseEntity.ok("Transaction created successfully");
+            return ResponseEntity.ok("Transaction created successfully for Customer ID: " + id);
         }
     }
 
     @PostMapping("/processTransaction")
     public ResponseEntity<String> processTransaction(@RequestBody Transaction transaction) {
-        // Deserializes into the DTO
-        // ex. String firstName = transactionRequest.getCustomerEntity().getName().getFirstName();
+        long id = transaction.getId();
+
         if (transaction == null) {
-            return ResponseEntity.badRequest().body("Failed to process transaction");
+            return ResponseEntity.badRequest().body("Failed to process transaction for Customer ID: " + id);
         }
 
         else {
-            return ResponseEntity.ok("Transaction processed successfully");
+            return ResponseEntity.ok("Transaction processed successfully for Customer ID: " + id);
         }
     }
 
@@ -85,10 +89,10 @@ public class ComplianceController {
         boolean updated = transactionService.updateTransaction(id, transaction);
 
         if (!updated) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok("Failed to update transaction for Customer ID: " + id);
 
         } else {
-            return ResponseEntity.ok("Transaction updated successfully");
+            return ResponseEntity.ok("Transaction updated successfully for Customer ID: "+ id);
         }
     }
 
@@ -97,10 +101,10 @@ public class ComplianceController {
         boolean deleted = transactionService.deleteTransaction(id);
 
         if (!deleted) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok("Failed to delete transaction for Customer ID: " + id);
 
         } else {
-            return ResponseEntity.ok("Transaction deleted successfully");
+            return ResponseEntity.ok("Transaction deleted successfully for Customer ID: " + id);
         }
     }
 }

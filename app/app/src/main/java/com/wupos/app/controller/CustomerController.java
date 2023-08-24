@@ -2,6 +2,7 @@ package com.wupos.app.controller;
 
 import com.wupos.app.model.returningParcingModel.User;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
+import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,18 +15,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class CustomerController {
 
     @Autowired
-    WebClient.Builder webClient;
+    private CustomerService customerService;
 
     @PostMapping(path = "/getCustomerDetails")
     public ResponseEntity<?> getCustomerDetails(@RequestBody GetCustomerDetailsRequest request) {
-        String pcp = request.getPCP();
-        User returnedData = webClient.build()
-                .get()
-                .uri("http://localhost:8081/getUser/{pcp}", pcp)
-                .retrieve()
-                .bodyToMono(User.class)
-                .block();
-        return new ResponseEntity<>(returnedData, HttpStatus.OK);
+        return customerService.getCustomerDetails(request);
     }
 
 }

@@ -18,7 +18,6 @@ public class CustomerController {
 
     @PostMapping(path = "/getCustomerDetails")
     public ResponseEntity<?> getCustomerDetails(@RequestBody GetCustomerDetailsRequest request) {
-        //TODO Call UCD /getUser endpoint
         String pcp = request.getPCP();
         User returnedData = webClient.build()
                 .get()
@@ -26,7 +25,7 @@ public class CustomerController {
                 .retrieve()
                 .bodyToMono(User.class)
                 .block();
-         return new ResponseEntity<>(returnedData, HttpStatus.OK);
+        return new ResponseEntity<>(returnedData, HttpStatus.OK);
     }
 
 }

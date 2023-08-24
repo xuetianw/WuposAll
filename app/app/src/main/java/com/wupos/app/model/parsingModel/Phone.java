@@ -1,4 +1,4 @@
-package com.wupos.app.parsingModel;
+package com.wupos.app.model.parsingModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Name {
+public class Phone {
 
-    private String firstName;
-    private String middleName;
-    private String lastName;
+    private String countryCode;
+    private String number;
 
 }

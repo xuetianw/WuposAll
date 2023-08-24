@@ -1,4 +1,4 @@
-package com.wupos.app.parsingModel;
+package com.wupos.app.model.parsingModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

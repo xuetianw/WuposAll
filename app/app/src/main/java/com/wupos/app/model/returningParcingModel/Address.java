@@ -2,12 +2,11 @@ package com.wupos.app.model.returningParcingModel;
 
 import lombok.*;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 public class Address {
     private String addressLine1;
 

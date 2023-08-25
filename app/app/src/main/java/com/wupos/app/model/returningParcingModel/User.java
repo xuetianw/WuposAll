@@ -2,16 +2,12 @@ package com.wupos.app.model.returningParcingModel;
 
 import lombok.*;
 
-
-
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class User {
-//    public final static String PREFIX = "ABB";
-//    public final static DecimalFormat df = new DecimalFormat("00000");
     private long pcp;
     private Name name;
     private PhoneNumber phone;

@@ -1,12 +1,15 @@
 package com.wupos.app.service.impl;
 
+import com.wupos.app.model.customerResponse.AddCustomer;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
 import com.wupos.app.model.returningParcingModel.User;
 import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
@@ -33,6 +36,40 @@ public class CustomerServiceImpl implements CustomerService {
             return new ResponseEntity<>(returnedData, HttpStatus.OK);
         } catch (WebClientResponseException e) {
             return new ResponseEntity<>(e.getResponseBodyAsString(), e.getStatusCode());
+        }
+    }
+
+    public ResponseEntity<?> addCustomer(User user) {
+        try {
+            AddCustomer response = webClient.build()
+                .post()
+                .uri("http://localhost:8090/addOrUpdateUser")
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(user))
+                .retrieve()
+                .bodyToMono(AddCustomer.class)
+                .block();
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>("Failure: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    public ResponseEntity<?> updateCustomer(User user) {
+        try {
+            String response = webClient.build()
+                .put()
+                .uri("http://localhost:8090/addOrUpdateUser")
+                .accept(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(user))
+                .retrieve()
+                .bodyToMono(String.class)
+                .block();
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return new ResponseEntity<>("Failure: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 

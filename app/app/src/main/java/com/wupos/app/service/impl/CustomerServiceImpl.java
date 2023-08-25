@@ -5,6 +5,7 @@ import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
 import com.wupos.app.model.returningParsingModel.User;
 import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +16,10 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import java.util.Map;
 
 @Service
-@ConfigurationProperties("")
+//@ConfigurationProperties("")
 public class CustomerServiceImpl implements CustomerService {
 
+    @Value("#{${responseCodes}}")
     private Map<String, String> responseCodes;
 
     @Autowired
@@ -25,10 +27,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     public ResponseEntity<?> getCustomerDetails(GetCustomerDetailsRequest request) {
         String pcp = request.getPCP();
-        if (!isValidPCP(pcp)) {
-            CustomResponse response = new CustomResponse(responseCodes.get("invalidPCP"), "Invalid PCP");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+//        if (!isValidPCP(pcp)) {
+//            CustomResponse response = new CustomResponse(responseCodes.get("invalidPCP"), "Invalid PCP");
+//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+//        }
 
         try {
             User returnedData = webClient.build()

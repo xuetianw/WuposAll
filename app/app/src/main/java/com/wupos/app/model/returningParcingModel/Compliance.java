@@ -2,9 +2,9 @@ package com.wupos.app.model.returningParcingModel;
 
 import lombok.*;
 
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class Compliance {

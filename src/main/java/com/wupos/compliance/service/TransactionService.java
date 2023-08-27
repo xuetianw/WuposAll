@@ -1,6 +1,9 @@
 package com.wupos.compliance.service;
 
 
+import com.wupos.compliance.exception.OverAmountLimitException;
+import com.wupos.compliance.exception.OverMonthlyAmountLimitException;
+import com.wupos.compliance.exception.OverMonthlyTransactionsLimitException;
 import com.wupos.compliance.model.PaymentDetails;
 import com.wupos.compliance.model.Transaction;
 import com.wupos.compliance.repo.TransactionDAO;
@@ -24,25 +27,22 @@ public class TransactionService {
         this.transactionDAO = transactionDAO;
     }
 
-    public boolean validateTransaction(PaymentDetails paymentDetails){
-        //PaymentDetails paymentDetails = transactionDAO.getTransactionById(transactionId).getPaymentDetails();
-        //System.out.println(paymentDetails.getSendAmount());
+    private boolean validatePaymentAmount(PaymentDetails paymentDetails){
         int sentAmount = Integer.parseInt(paymentDetails.getSendAmount()) / BUFFER;
         if(sentAmount > TRANSACTION_LIMIT){ //get number from config
-            return true; //beyond transaction limit
+            throw new OverAmountLimitException("Amount should be less than " + TRANSACTION_LIMIT);
         }
         return false;
     }
 
 
-    public boolean validateMonthlyLimitAmount(Transaction transaction){
+    private void validateMonthlyLimitAmount(Transaction transaction){
         //System.out.println(transaction.getPCP());
-        List<Transaction> userTransactions = transactionDAO.getTransactionsByCustomer(transaction);
+        List<Transaction> userTransactions = transactionDAO.findByPCP(transaction.getPCP());
         LocalDate today = LocalDate.now();
         LocalDate monthAgo = today.minusDays(30);
 
         int monthlyTransaction = Integer.parseInt(transaction.getPaymentDetails().getSendAmount()) /BUFFER;
-
         for(Transaction transactionByUser : userTransactions){
             LocalDate date = transactionByUser.getDateAdded();
             if(date.isAfter(monthAgo) && date.isBefore(today)){
@@ -50,16 +50,14 @@ public class TransactionService {
             }
 
             if(monthlyTransaction > TRANSACTION_MONTHLY_AMOUNT_LIMIT){
-                return true;
+                throw new OverMonthlyAmountLimitException("User has exceeded the monthly amount limit");
             }
         }
-
-        return false;
     }
 
-    public boolean validateMonthlyLimitNumber(Transaction transaction){
+    private void validateMonthlyLimitNumber(Transaction transaction){
         //repo.getTransactionsByUser
-        List<Transaction> userTransactions = transactionDAO.getTransactionsByCustomer(transaction);
+        List<Transaction> userTransactions = transactionDAO.findByPCP(transaction.getPCP());
         LocalDate today = LocalDate.now();
         LocalDate monthAgo = today.minusDays(30);
 
@@ -72,10 +70,9 @@ public class TransactionService {
             }
 
             if(monthlyTransaction > TRANSACTION_NUMBER_LIMIT){
-                return true;
+                throw new OverMonthlyTransactionsLimitException("User exceeded monthly transaction limit");
             }
         }
-        return false;
     }
 
     // crud methods
@@ -83,9 +80,6 @@ public class TransactionService {
         return transactionDAO.findAll();
     }
 
-    public Transaction getTransactionById(Long id) {
-        return transactionDAO.findTransactionById(id);
-    }
 
     public boolean createTransaction(Transaction transaction) {
         try {
@@ -97,17 +91,7 @@ public class TransactionService {
         }
     }
 
-    public boolean updateTransaction(Long id, Transaction updatedTransaction) {
-        Transaction existingTransaction = transactionDAO.findTransactionById(id);
 
-        if (existingTransaction != null) {
-            transactionDAO.save(updatedTransaction);
-            return true;
-
-        } else {
-            return false;
-        }
-    }
 
     public boolean deleteTransaction(Long id) {
         try {
@@ -119,4 +103,10 @@ public class TransactionService {
         }
     }
 
+    public boolean validateTransaction(Transaction transaction) {
+        validatePaymentAmount(transaction.getPaymentDetails());
+        validateMonthlyLimitAmount(transaction);
+        validateMonthlyLimitNumber(transaction);
+        return true;
+    }
 }

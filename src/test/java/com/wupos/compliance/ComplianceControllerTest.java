@@ -1,18 +1,32 @@
+package com.wupos.compliance;
+
+import com.wupos.compliance.controller.ComplianceController;
+import com.wupos.compliance.model.Transaction;
+import com.wupos.compliance.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
+@WebMvcTest({ComplianceController.class})
 class ComplianceControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private TransactionService transactionService;
 
-    private ComplianceController complianceController;
+    //private ComplianceController complianceController;
 
     @BeforeEach
     void setup() {
@@ -52,7 +66,7 @@ class ComplianceControllerTest {
     @Test
     void testGetAllTransactions() {
         // assert that the mock transactions are the same as the response body
-        List<Transaction> transactions = when(complianceService.getAllTransactions()).thenReturn(transactions);
+        List<Transaction> transactions = when(transactionService.getAllTransactions()).thenReturn(transactions);
 
         ResponseEntity<List<Transaction>> response = complianceController.getAllTransactions();
 
@@ -64,7 +78,7 @@ class ComplianceControllerTest {
     void testGetTransactionById_ValidId() {
         // using anyLong to isolate the behavior of a valid Id look up
         Transaction transaction = new Transaction();
-        when(complianceService.getTransactionById(anyLong())).thenReturn(transaction);
+        when(transactionService.getTransactionById(anyLong())).thenReturn(transaction);
 
         ResponseEntity<Transaction> response = complianceController.getTransactionById(anyLong());
 
@@ -74,7 +88,7 @@ class ComplianceControllerTest {
 
     @Test
     void testGetTransactionById_InvalidId() {
-        when(complianceService.getTransactionById(anyLong())).thenReturn(null);
+        when(transactionService.getTransactionById(anyLong())).thenReturn(null);
 
         // assuming we got an invalid ID of long type
         ResponseEntity<Transaction> response = complianceController.getTransactionById(anyLong());
@@ -85,7 +99,7 @@ class ComplianceControllerTest {
 
     @Test
     void testCreateTransaction_Success() {
-        when(complianceService.createTransaction(any(Transaction.class))).thenReturn(true);
+        when(transactionService.createTransaction(any(Transaction.class))).thenReturn(true);
 
         ResponseEntity<String> response = complianceController.createTransaction(new Transaction());
 
@@ -95,7 +109,7 @@ class ComplianceControllerTest {
 
     @Test
     void testCreateTransaction_Failure() {
-        when(complianceService.createTransaction(any(Transaction.class))).thenReturn(false);
+        when(transactionService.createTransaction(any(Transaction.class))).thenReturn(false);
 
         ResponseEntity<String> response = complianceController.createTransaction(new Transaction());
 
@@ -106,7 +120,7 @@ class ComplianceControllerTest {
     @Test
     void testProcessTransaction_Success() {
         TransactionRequest transactionRequest = new TransactionRequest();
-        when(complianceService.processTransaction(transactionRequest)).thenReturn(true);
+        when(transactionService.processTransaction(transactionRequest)).thenReturn(true);
 
         ResponseEntity<String> response = complianceController.processTransaction(transactionRequest);
 
@@ -116,8 +130,8 @@ class ComplianceControllerTest {
 
     @Test
     void testProcessTransaction_Failure() {
-        TransactionRequest transactionRequest = new TransactionRequest();
-        when(complianceService.processTransaction(transactionRequest)).thenReturn(false);
+        Transaction transactionRequest = new Transaction();
+        when(transactionService.sendMoneyValidation(transactionRequest)).thenReturn(false);
 
         ResponseEntity<String> response = complianceController.processTransaction(transactionRequest);
 
@@ -128,7 +142,7 @@ class ComplianceControllerTest {
 
     @Test
     void testUpdateTransaction_Success() {
-        when(complianceService.updateTransaction(anyLong(), any(Transaction.class))).thenReturn(true);
+        when(transactionService.updateTransaction(anyLong(), any(Transaction.class))).thenReturn(true);
 
         ResponseEntity<String> response = complianceController.updateTransaction(anyLong(), new Transaction());
 
@@ -138,7 +152,7 @@ class ComplianceControllerTest {
 
     @Test
     void testUpdateTransaction_Failure() {
-        when(complianceService.updateTransaction(anyLong(), any(Transaction.class))).thenReturn(false);
+        when(transactionService.updateTransaction(anyLong(), any(Transaction.class))).thenReturn(false);
 
         ResponseEntity<String> response = complianceController.updateTransaction(anyLong(), new Transaction());
 
@@ -148,7 +162,7 @@ class ComplianceControllerTest {
 
     @Test
     void testDeleteTransaction_Success() {
-        when(complianceService.deleteTransaction(anyLong())).thenReturn(true);
+        when(transactionService.deleteTransaction(anyLong())).thenReturn(true);
 
         ResponseEntity<String> response = complianceController.deleteTransaction(anyLong());
 
@@ -158,7 +172,7 @@ class ComplianceControllerTest {
 
     @Test
     void testDeleteTransaction_Failure() {
-        when(complianceService.deleteTransaction(anyLong())).thenReturn(false);
+        when(transactionService.deleteTransaction(anyLong())).thenReturn(false);
 
         ResponseEntity<String> response = complianceController.deleteTransaction(anyLong());
 

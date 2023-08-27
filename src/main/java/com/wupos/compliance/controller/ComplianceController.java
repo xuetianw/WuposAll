@@ -1,8 +1,10 @@
 package com.wupos.compliance.controller;
 
+import com.wupos.compliance.advice.CustomResponse;
 import com.wupos.compliance.model.Transaction;
 import com.wupos.compliance.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,29 +18,14 @@ public class ComplianceController {
     private TransactionService transactionService;
 
     @GetMapping("/sendMoney")
-    public ResponseEntity<String> sendMoneyValidation(@RequestBody  Transaction transaction) {
-        long id = transaction.getId();
-
-        System.out.println(transaction.getPCP());
-
+    public ResponseEntity<CustomResponse> sendMoneyValidation(@RequestBody  Transaction transaction) {
+        //System.out.println(transaction.getPCP());
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
 
-        else if (transactionService.validateTransaction(transaction.getPaymentDetails())) {
-            return ResponseEntity.badRequest().body("Invalid transaction ID for Customer ID: " + id);
-
-        } else if (transactionService.validateMonthlyLimitAmount(transaction)) {
-            //System.out.println(transaction.getCustomer());
-            return ResponseEntity.badRequest().body("Exceeded monthly limit amount for Customer ID: " + id);
-
-        } else if (transactionService.validateMonthlyLimitNumber(transaction)) {
-            return ResponseEntity.badRequest().body("Exceeded number of monthly transactions for Customer ID: " + id);
-
-        } else {
-            // success();
-            return ResponseEntity.ok("Transaction successfully validated for Customer ID" + id);
-        }
+        boolean valid = transactionService.validateTransaction(transaction);
+        return new ResponseEntity<>(new CustomResponse(200, "Transaction valid"), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/transactions")
@@ -47,64 +34,42 @@ public class ComplianceController {
         return ResponseEntity.ok(transactions);
     }
 
-    @GetMapping("/transactions/{id}")
-    public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id) {
-        Transaction transaction = transactionService.getTransactionById(id);
-        if (transaction == null) {
-            return ResponseEntity.notFound().build();
-
-        } else {
-            return ResponseEntity.ok(transaction);
-        }
-    }
 
     @PostMapping("/transactions")
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
         boolean created = transactionService.createTransaction(transaction);
-        long id = transaction.getId();
 
         if (!created) {
-            return ResponseEntity.badRequest().body("Failed to create transaction for Customer ID: " + id);
+            return ResponseEntity.badRequest().body("Failed to create transaction");
 
         } else {
-            return ResponseEntity.ok("Transaction created successfully for Customer ID: " + id);
+            return ResponseEntity.ok("Transaction created successfully");
         }
     }
 
     @PostMapping("/processTransaction")
     public ResponseEntity<String> processTransaction(@RequestBody Transaction transaction) {
-        long id = transaction.getId();
-
+        // Deserializes into the DTO
+        // ex. String firstName = transactionRequest.getCustomerEntity().getName().getFirstName();
         if (transaction == null) {
-            return ResponseEntity.badRequest().body("Failed to process transaction for Customer ID: " + id);
+            return ResponseEntity.badRequest().body("Failed to process transaction");
         }
 
         else {
-            return ResponseEntity.ok("Transaction processed successfully for Customer ID: " + id);
+            return ResponseEntity.ok("Transaction processed successfully");
         }
     }
 
-    @PutMapping("/transactions/{id}")
-    public ResponseEntity<String> updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
-        boolean updated = transactionService.updateTransaction(id, transaction);
-
-        if (!updated) {
-            return ResponseEntity.ok("Failed to update transaction for Customer ID: " + id);
-
-        } else {
-            return ResponseEntity.ok("Transaction updated successfully for Customer ID: "+ id);
-        }
-    }
 
     @DeleteMapping("/transactions/{id}")
     public ResponseEntity<String> deleteTransaction(@PathVariable Long id) {
         boolean deleted = transactionService.deleteTransaction(id);
 
         if (!deleted) {
-            return ResponseEntity.ok("Failed to delete transaction for Customer ID: " + id);
+            return ResponseEntity.notFound().build();
 
         } else {
-            return ResponseEntity.ok("Transaction deleted successfully for Customer ID: " + id);
+            return ResponseEntity.ok("Transaction deleted successfully");
         }
     }
 }

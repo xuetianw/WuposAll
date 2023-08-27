@@ -2,31 +2,29 @@ package com.wupos.compliance.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "Transaction")
+@NoArgsConstructor
 public class Transaction {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name="customer_id")
-    private  Customer customer;
     @OneToOne
     private PaymentDetails paymentDetails;
-    @OneToOne
+    @ManyToOne
     private Receiver receiverEntity;
+
 
     private LocalDate dateAdded;
 
     private String PCP;
 
-    public Customer getCustomer() {
-        return customer;
-    }
 
     public Long getId() {
         return id;
@@ -36,16 +34,12 @@ public class Transaction {
         this.id = id;
     }
 
-    public void setCustomerEntity(Customer customerEntity) {
-        this.customer = customerEntity;
-    }
-
     public PaymentDetails getPaymentDetails() {
         return paymentDetails;
     }
 
-    public void setPaymentDetailsEntity(PaymentDetails paymentDetailsEntity) {
-        this.paymentDetails = paymentDetailsEntity;
+    public void setPaymentDetails(PaymentDetails paymentDetails) {
+        this.paymentDetails = paymentDetails;
     }
 
     public Receiver getReceiverEntity() {
@@ -68,7 +62,7 @@ public class Transaction {
         return PCP;
     }
 
-    public void setPcp(String PCP) {
+    public void setPCP(String PCP) {
         this.PCP = PCP;
     }
 }

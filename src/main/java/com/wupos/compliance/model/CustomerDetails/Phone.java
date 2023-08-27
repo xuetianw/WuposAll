@@ -2,8 +2,10 @@ package com.wupos.compliance.model.CustomerDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.NoArgsConstructor;
 
 @Embeddable
+@NoArgsConstructor
 public class Phone {
 
     @Column

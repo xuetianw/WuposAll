@@ -27,10 +27,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     public ResponseEntity<?> getCustomerDetails(GetCustomerDetailsRequest request) {
         String pcp = request.getPCP();
-//        if (!isValidPCP(pcp)) {
-//            CustomResponse response = new CustomResponse(responseCodes.get("invalidPCP"), "Invalid PCP");
-//            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-//        }
+        if (!isValidPCP(pcp)) {
+            CustomResponse response = new CustomResponse(responseCodes.get("invalidPCP"), "Invalid PCP");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
 
         try {
             User returnedData = webClient.build()
@@ -59,7 +59,7 @@ public class CustomerServiceImpl implements CustomerService {
 //            return false;
 //        }
         try {
-            Long.parseLong(pcp.substring(3));
+            Long.parseLong(pcp);
         } catch (NumberFormatException e) {
             return false;
         }

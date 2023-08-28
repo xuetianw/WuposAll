@@ -5,11 +5,9 @@ import com.wupos.compliance.model.CustomerDetails.Compliance;
 import com.wupos.compliance.model.CustomerDetails.Name;
 import com.wupos.compliance.model.CustomerDetails.Phone;
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "Customer")
-@NoArgsConstructor
 public class Customer {
 
     @Id
@@ -27,7 +25,8 @@ public class Customer {
     @Embedded
     private Compliance compliance;
 
-
+    public Customer() {
+    }
 
     public String getPCP() {
         return PCP;

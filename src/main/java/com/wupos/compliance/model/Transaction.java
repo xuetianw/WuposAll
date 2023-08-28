@@ -20,11 +20,21 @@ public class Transaction {
     @ManyToOne
     private Receiver receiverEntity;
 
+    @ManyToOne
+    private Customer customer;
+
 
     private LocalDate dateAdded;
 
     private String PCP;
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
+    }
 
     public Long getId() {
         return id;

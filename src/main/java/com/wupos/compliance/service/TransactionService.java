@@ -4,7 +4,6 @@ package com.wupos.compliance.service;
 import com.wupos.compliance.exception.OverAmountLimitException;
 import com.wupos.compliance.exception.OverMonthlyAmountLimitException;
 import com.wupos.compliance.exception.OverMonthlyTransactionsLimitException;
-import com.wupos.compliance.model.PaymentDetails;
 import com.wupos.compliance.model.Transaction;
 import com.wupos.compliance.repo.TransactionDAO;
 import org.springframework.dao.DataAccessException;
@@ -27,10 +26,10 @@ public class TransactionService {
         this.transactionDAO = transactionDAO;
     }
 
-    private boolean validatePaymentAmount(PaymentDetails paymentDetails){
-        int sentAmount = Integer.parseInt(paymentDetails.getSendAmount()) / BUFFER;
-        if(sentAmount > TRANSACTION_LIMIT){ //get number from config
-            throw new OverAmountLimitException("Amount should be less than " + TRANSACTION_LIMIT);
+    private boolean validatePaymentAmount(Transaction transaction){
+        int sentAmount = Integer.parseInt(transaction.getPaymentDetails().getSendAmount()) / BUFFER;
+        if(sentAmount > TRANSACTION_LIMIT && transaction.getCustomer().getCompliance() == null){ //get number from config
+            throw new OverAmountLimitException("Transaction Amount limit is " + TRANSACTION_LIMIT);
         }
         return false;
     }
@@ -49,7 +48,7 @@ public class TransactionService {
                 monthlyTransaction += Integer.parseInt(transactionByUser.getPaymentDetails().getSendAmount());
             }
 
-            if(monthlyTransaction > TRANSACTION_MONTHLY_AMOUNT_LIMIT){
+            if(monthlyTransaction > TRANSACTION_MONTHLY_AMOUNT_LIMIT && transaction.getCustomer().getCompliance() == null ){
                 throw new OverMonthlyAmountLimitException("User has exceeded the monthly amount limit");
             }
         }
@@ -69,7 +68,7 @@ public class TransactionService {
                 monthlyTransaction++;
             }
 
-            if(monthlyTransaction > TRANSACTION_NUMBER_LIMIT){
+            if(monthlyTransaction > TRANSACTION_NUMBER_LIMIT && transaction.getCustomer().getCompliance() == null){
                 throw new OverMonthlyTransactionsLimitException("User exceeded monthly transaction limit");
             }
         }
@@ -104,7 +103,7 @@ public class TransactionService {
     }
 
     public boolean validateTransaction(Transaction transaction) {
-        validatePaymentAmount(transaction.getPaymentDetails());
+        validatePaymentAmount(transaction);
         validateMonthlyLimitAmount(transaction);
         validateMonthlyLimitNumber(transaction);
         return true;

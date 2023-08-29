@@ -1,4 +1,4 @@
-package com.wupos.app.model.returningParsingModel;
+package com.wupos.app.model.UCDParsingModel;
 
 import lombok.*;
 
@@ -12,7 +12,6 @@ import lombok.*;
 public class User {
 //    public final static String PREFIX = "ABB";
 //    public final static DecimalFormat df = new DecimalFormat("00000");
-    private long pcp;
     private Name name;
     private PhoneNumber phone;
     private Address address;
@@ -23,7 +22,6 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "pcp='" + pcp + '\'' +
                 ", name=" + name +
                 ", phoneNumber=" + phone +
                 ", address=" + address +

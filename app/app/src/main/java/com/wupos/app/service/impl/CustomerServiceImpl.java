@@ -1,12 +1,12 @@
 package com.wupos.app.service.impl;
 
 import com.wupos.app.customResponse.CustomResponse;
+import com.wupos.app.customResponse.GetCustomerDetailsResponse;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
-import com.wupos.app.model.returningParsingModel.User;
+import com.wupos.app.model.UCDParsingModel.User;
 import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -33,13 +33,14 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         try {
-            User returnedData = webClient.build()
+            User customer = webClient.build()
                     .get()
                     .uri("http://localhost:8081/getUser/{pcp}", pcp)
                     .retrieve()
                     .bodyToMono(User.class)
                     .block();
-            return new ResponseEntity<>(returnedData, HttpStatus.OK);
+            return new ResponseEntity<>(GetCustomerDetailsResponse.builder().customer(customer).pcp(pcp).build(),
+                    HttpStatus.OK);
         } catch (WebClientResponseException.NotFound e) {
             CustomResponse response =
                     new CustomResponse(responseCodes.get("userNotFound"), e.getResponseBodyAsString());

@@ -40,4 +40,13 @@ public class UserServiceImpl implements UserService {
         }
         return pcp;
     }
+
+    @Override
+    public User getUser(String pcp) {
+        try {
+            return userRepository.findById(pcp).orElse(null);
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
 }

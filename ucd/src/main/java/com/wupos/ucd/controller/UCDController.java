@@ -1,6 +1,8 @@
 package com.wupos.ucd.controller;
 
+import com.wupos.ucd.entity.Compliance;
 import com.wupos.ucd.entity.User;
+import com.wupos.ucd.service.ComplianceServiceImpl;
 import com.wupos.ucd.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,9 @@ import org.springframework.web.bind.annotation.*;
 public class UCDController {
     @Autowired
     private UserServiceImpl userService;
+
+    @Autowired
+    private ComplianceServiceImpl complianceService;
 
     @GetMapping("/")
     public String helloWorld() {
@@ -31,6 +36,36 @@ public class UCDController {
         } catch (Exception e) {
             System.err.println(e);
             return new ResponseEntity<>("Failure: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @GetMapping("/getUser/{pcp}")
+    public ResponseEntity<?> getUser(@PathVariable String pcp) {
+        try {
+            User user = userService.getUser(pcp);
+            if (user != null) {
+                return new ResponseEntity<>(user, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            return new ResponseEntity<>("Error retrieving user", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/getCompliance/{pcp}")
+    public ResponseEntity<?> getCompliance(@PathVariable String pcp) {
+        try {
+            Compliance compliance = complianceService.getCompliance(pcp);
+            if (compliance != null) {
+                return new ResponseEntity<>(compliance, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("User compliance not found", HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            return new ResponseEntity<>("Error retrieving compliance details", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

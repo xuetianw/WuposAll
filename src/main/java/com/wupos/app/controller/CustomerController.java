@@ -1,5 +1,7 @@
 package com.wupos.app.controller;
 
+import com.wupos.app.model.agent.AgentCredentials;
+import com.wupos.app.model.agent.AgentDetails;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
 import com.wupos.app.model.returningParcingModel.User;
 import com.wupos.app.service.CustomerService;
@@ -29,5 +31,11 @@ public class CustomerController {
     @PutMapping(path = "/updateCustomer")
     public ResponseEntity<?> updateCustomer(@RequestBody User request) {
         return customerService.updateCustomer(request);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AgentDetails> login(@RequestBody AgentCredentials agentCredentials) {
+        AgentDetails loggedInUser = customerService.login(agentCredentials);
+        return ResponseEntity.ok(loggedInUser);
     }
 }

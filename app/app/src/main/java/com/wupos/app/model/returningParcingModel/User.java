@@ -10,7 +10,7 @@ import lombok.*;
 public class User {
     private long pcp;
     private Name name;
-    private PhoneNumber phone;
+    private PhoneNumber phoneNumber;
     private Address address;
 
     private Compliance compliance;
@@ -21,7 +21,7 @@ public class User {
         return "User{" +
                 "pcp='" + pcp + '\'' +
                 ", name=" + name +
-                ", phoneNumber=" + phone +
+                ", phoneNumber=" + phoneNumber +
                 ", address=" + address +
                 ", compliance=" + compliance +
                 '}';

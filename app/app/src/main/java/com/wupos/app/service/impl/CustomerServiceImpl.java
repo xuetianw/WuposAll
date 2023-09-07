@@ -43,7 +43,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             AddCustomer response = webClient.build()
                 .post()
-                .uri("http://localhost:8090/addOrUpdateUser")
+                .uri("http://localhost:8081/addUser")
                 .accept(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(user))
                 .retrieve()
@@ -60,7 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             String response = webClient.build()
                 .put()
-                .uri("http://localhost:8090/addOrUpdateUser")
+                .uri("http://localhost:8081/addUser")
                 .accept(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(user))
                 .retrieve()

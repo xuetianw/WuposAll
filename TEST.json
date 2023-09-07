@@ -1,0 +1,57 @@
+{
+  "customer": {
+    "name": {
+      "firstName": "Abc",
+      "middleName": "Welcome@123",
+      "lastName": "zyx"
+    },
+    "phone": {
+      "countryCode": "+1",
+      //Dropdown
+      "number": "778909876"
+    },
+    "address": {
+      "addressLine1": "Welcome@123", //alphanumeric
+      "addressLine2": "admin",      //(optional) alphnumeric
+      "pincode": "V3R7T5",      //alphnumeric
+      "city": "abc",      //alpha
+      "state": "abc",      //alpha
+      "country": "Canada"      //dropdown
+    },
+    "compliance": {
+      "idType": "Passport",      //dropdown
+      "idNumber": "AB12345",      //alphanumeric
+      "idIssueDate": "MM/DD/YY",
+      "idExpiryDate": "MM/DD/YY"
+    }
+  },
+  "PCP": "abg9876",  //alphanumeric
+  "receiver": {
+    "name": {
+      "firstName": "Abc",
+      "middleName": "Welcome@123",
+      "lastName": "zyx"
+    },
+    "phone": {
+      "countryCode": "+1",      //Dropdown
+      "number: ": "778909876"
+    },
+    "address": {
+      "addressLine1": "Welcome@123",      //alphanumeric
+      "addressLine2": "admin",      //(optional) alphnumeric
+      "pincode": "V3R7T5",      //alphnumeric
+      "city": "abc",      //alpha
+      "state": "abc",      //alpha
+      "country": "Canada"      //dropdown
+    }
+  },
+  "paymentDetails": {
+    "sendAmount": "2000",
+    "exchangeRate": " ",
+    "fees": " ",
+    "sendCurrency": " ",
+    "receiveAmount": " ",
+    "receiverCurrency": " ",
+    "paymentType": ""
+  }
+}

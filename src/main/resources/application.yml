@@ -1,0 +1,28 @@
+#blaze:
+#  sendAmountLimit: 100000 # last two digits are cents
+#
+#  blackListedPeople:
+#    lastnames:
+#      Smith, Brown, Tremblay
+#
+#  MoneyLaundering:
+#    lastnames:
+#      Martin, Roy
+#
+#  sanctionedCountries:
+#    RU, KP
+
+
+
+#relativePath: com.system.blaze.customException
+#
+#test2: "${relativePath}.BlacklistException"
+
+
+
+#error_map:
+#    com.system.blaze.customException:
+#      {BlacklistException: "0010", MoneyLaunderingException : "0011"}
+
+server:
+  port: 8082

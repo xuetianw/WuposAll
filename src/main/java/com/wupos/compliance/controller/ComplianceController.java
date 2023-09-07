@@ -24,7 +24,7 @@ public class ComplianceController {
             return ResponseEntity.notFound().build();
         }
 
-        boolean valid = transactionService.validateTransaction(transaction);
+        transactionService.validateTransaction(transaction);
         return new ResponseEntity<>(new CustomResponse(200, "Transaction valid"), HttpStatus.ACCEPTED);
     }
 

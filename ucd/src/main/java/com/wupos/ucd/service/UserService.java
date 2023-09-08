@@ -1,8 +1,8 @@
 package com.wupos.ucd.service;
 
-import com.wupos.ucd.entity.User;
+import com.wupos.ucd.entity.Customer;
 
 public interface UserService {
-    long addOrUpdateUser(User user);
-    User getUser(String pcp);
+    long addOrUpdateUser(Customer user);
+    Customer getUser(String pcp);
 }

@@ -3,8 +3,8 @@ package com.wupos.ucd.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "customer")
+public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pcp")
@@ -19,10 +19,10 @@ public class User {
     @JoinColumn(name = "compliance_id")
     private Compliance compliance;
 
-    public User() {
+    public Customer() {
     }
 
-    public User(Name name, PhoneNumber phoneNumber, Address address, Compliance compliance) {
+    public Customer(Name name, PhoneNumber phoneNumber, Address address, Compliance compliance) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;

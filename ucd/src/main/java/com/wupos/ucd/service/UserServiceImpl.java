@@ -13,8 +13,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ComplianceRepository complianceRepository;
 
-    private void saveUser(User savedUser,
-        User user, 
+    private void saveUser(Customer savedUser,
+        Customer user, 
         UserRepository userRepository, 
         ComplianceRepository complianceRepository) {
             savedUser.setName(user.getName());
@@ -26,15 +26,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public long addOrUpdateUser(User user) {
-        User savedUser = userRepository.findByPcp(user.getPcp());
+    public long addOrUpdateUser(Customer user) {
+        System.out.println("user: " + user);
+        System.out.println(user.getPcp());
+        Customer savedUser = userRepository.findByPcp(user.getPcp());
         long pcp;
 
         if (savedUser != null) {
             saveUser(savedUser, user, userRepository, complianceRepository);
             pcp = 0;
         } else {
-            savedUser = new User();
+            savedUser = new Customer();
             saveUser(savedUser, user, userRepository, complianceRepository);
             pcp = savedUser.getPcp();
         }
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String pcp) {
+    public Customer getUser(String pcp) {
         try {
             return userRepository.findById(pcp).orElse(null);
         } catch (NumberFormatException e) {

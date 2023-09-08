@@ -28,8 +28,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     WebClient.Builder webClient;
-    private AgentCredentialsRepository agentCredentialsRepository;
-    private AgentDetailsRepository agentDetailsRepository;
 
 
     //TODO return error code + message in response body
@@ -99,26 +97,5 @@ public class CustomerServiceImpl implements CustomerService {
             return false;
         }
         return true;
-    }
-
-    public AgentDetails login(AgentCredentials agentCredentials) {
-        Optional<AgentCredentials> credentials = agentCredentialsRepository.findById(agentCredentials.getUsername());
-
-        if (credentials.isEmpty()) {
-            throw new AgentNotFoundException("Username not found");
-        }
-
-        BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
-        AgentCredentials dbCredentials = credentials.get();
-
-        if (!bcrypt.matches(agentCredentials.getPassword(), dbCredentials.getPassword())) {
-            throw new WrongPasswordException("Username and password did not match");
-        }
-        AgentDetails details = agentDetailsRepository.findByAgentCredentials(agentCredentials);
-        LocalDateTime now = LocalDateTime.now();
-        details.setLastLogin(now);
-        agentDetailsRepository.save(details);
-
-        return details;
     }
 }

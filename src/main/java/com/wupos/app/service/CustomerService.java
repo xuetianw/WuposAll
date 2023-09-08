@@ -12,5 +12,5 @@ public interface CustomerService {
     ResponseEntity<?> getCustomerDetails(GetCustomerDetailsRequest request);
     ResponseEntity<?> addCustomer(User user);
     ResponseEntity<?> updateCustomer(User user);
-    AgentDetails login(AgentCredentials agentCredentials);
+
 }

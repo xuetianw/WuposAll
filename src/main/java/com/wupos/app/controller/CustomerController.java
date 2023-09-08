@@ -33,9 +33,4 @@ public class CustomerController {
         return customerService.updateCustomer(request);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<AgentDetails> login(@RequestBody AgentCredentials agentCredentials) {
-        AgentDetails loggedInUser = customerService.login(agentCredentials);
-        return ResponseEntity.ok(loggedInUser);
-    }
 }

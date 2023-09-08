@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @Getter
 @Setter
-public class User {
+public class Customer {
     private long pcp;
     private Name name;
     private PhoneNumber phoneNumber;

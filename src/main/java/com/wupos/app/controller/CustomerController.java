@@ -1,7 +1,10 @@
 package com.wupos.app.controller;
 
+import com.wupos.app.model.agent.AgentCredentials;
+import com.wupos.app.model.agent.AgentDetails;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
-import com.wupos.app.model.returningParcingModel.User;
+import com.wupos.app.model.returningParcingModel.Customer;
+import com.wupos.app.model.returningParcingModel.CustomerPayload;
 import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +25,13 @@ public class CustomerController {
     }
 
     @PostMapping(path = "/addCustomer")
-    public ResponseEntity<?> addCustomer(@RequestBody User request) {
-        return customerService.addCustomer(request);
+    public ResponseEntity<?> addCustomer(@RequestBody CustomerPayload request) {
+        return customerService.addCustomer(request.getCustomer());
     }
 
     @PutMapping(path = "/updateCustomer")
-    public ResponseEntity<?> updateCustomer(@RequestBody User request) {
-        return customerService.updateCustomer(request);
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerPayload request) {
+        return customerService.updateCustomer(request.getCustomer());
     }
+
 }

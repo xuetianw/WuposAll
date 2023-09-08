@@ -1,5 +1,7 @@
 package com.wupos.app.controller;
 
+import com.wupos.app.model.agent.AgentCredentials;
+import com.wupos.app.model.agent.AgentDetails;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
 import com.wupos.app.model.returningParcingModel.Customer;
 import com.wupos.app.model.returningParcingModel.CustomerPayload;
@@ -31,4 +33,5 @@ public class CustomerController {
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerPayload request) {
         return customerService.updateCustomer(request.getCustomer());
     }
+
 }

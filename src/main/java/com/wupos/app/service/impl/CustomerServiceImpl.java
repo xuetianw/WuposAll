@@ -1,23 +1,34 @@
 package com.wupos.app.service.impl;
 
+import com.wupos.app.exceptions.AgentNotFoundException;
+import com.wupos.app.exceptions.WrongPasswordException;
+import com.wupos.app.model.agent.AgentCredentials;
+import com.wupos.app.model.agent.AgentDetails;
 import com.wupos.app.model.customerResponse.AddCustomer;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
 import com.wupos.app.model.returningParcingModel.Customer;
+import com.wupos.app.repository.AgentCredentialsRepository;
+import com.wupos.app.repository.AgentDetailsRepository;
 import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
+
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     WebClient.Builder webClient;
+
 
     //TODO return error code + message in response body
     public ResponseEntity<?> getCustomerDetails(GetCustomerDetailsRequest request) {

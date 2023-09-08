@@ -1,7 +1,7 @@
 package com.wupos.ucd.controller;
 
 import com.wupos.ucd.entity.Compliance;
-import com.wupos.ucd.entity.User;
+import com.wupos.ucd.entity.Customer;
 import com.wupos.ucd.service.ComplianceServiceImpl;
 import com.wupos.ucd.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +23,9 @@ public class UCDController {
     }
 
     @RequestMapping(value="/addOrUpdateUser", method={RequestMethod.POST, RequestMethod.PUT})
-    public ResponseEntity<?> addUser(@RequestBody User user) {
+    public ResponseEntity<?> addUser(@RequestBody Customer customer) {
         try {
-            long pcp = userService.addOrUpdateUser(user);
+            long pcp = userService.addOrUpdateUser(customer);
             if (pcp == 0) {
                 return new ResponseEntity<>("Successfully updated", HttpStatus.OK);
             } else {
@@ -42,7 +42,7 @@ public class UCDController {
     @GetMapping("/getUser/{pcp}")
     public ResponseEntity<?> getUser(@PathVariable String pcp) {
         try {
-            User user = userService.getUser(pcp);
+            Customer user = userService.getUser(pcp);
             if (user != null) {
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } else {

@@ -28,9 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     WebClient.Builder webClient;
-    @Autowired
     private AgentCredentialsRepository agentCredentialsRepository;
-    @Autowired
     private AgentDetailsRepository agentDetailsRepository;
 
 

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ControllerExceptionHandler {
+public class GlobalExceptionHandler {
 
     @ExceptionHandler(AgentNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleAgentNotFoundException(AgentNotFoundException e) {
@@ -21,6 +21,4 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(new ErrorResponse(102, e.getMessage()), HttpStatus.UNAUTHORIZED);
 
     }
-
-    // You can add more exception handlers for other custom exceptions here
 }

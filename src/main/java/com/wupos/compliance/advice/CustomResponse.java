@@ -6,10 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CustomResponse {
-    private int code;
+    private Long code;
     private String message;
 
-    public CustomResponse(int code, String message){
+    public CustomResponse(long code, String message) {
         this.code = code;
         this.message = message;
     }

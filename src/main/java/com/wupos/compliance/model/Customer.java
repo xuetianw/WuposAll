@@ -6,58 +6,13 @@ import com.wupos.compliance.model.CustomerDetails.Name;
 import com.wupos.compliance.model.CustomerDetails.Phone;
 import jakarta.persistence.*;
 
-@Entity
-@Table(name = "Customer")
+@Embeddable
 public class Customer {
-
-    @Id
-    @Column(name = "customer_pcp")
-    private String PCP;
-    @Embedded
-    private Name name;
-
-    @Embedded
-    private Phone phone;
-
-    @Embedded
-    private Address address;
 
     @Embedded
     private Compliance compliance;
 
     public Customer() {
-    }
-
-    public String getPCP() {
-        return PCP;
-    }
-
-    public void setPCP(String PCP) {
-        this.PCP = PCP;
-    }
-
-    public Name getName() {
-        return name;
-    }
-
-    public void setName(Name name) {
-        this.name = name;
-    }
-
-    public Phone getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Phone phone) {
-        this.phone = phone;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
     }
 
     public Compliance getCompliance() {

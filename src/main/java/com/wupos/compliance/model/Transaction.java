@@ -2,9 +2,12 @@ package com.wupos.compliance.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+
+import org.hibernate.annotations.GenericGenerator;
 
 @Entity
 @Table(name = "Transaction")
@@ -12,29 +15,19 @@ import java.time.LocalDate;
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "mctnSequence", initialValue = 1111111111)
+    @GeneratedValue(generator = "mctnSequence")
     private Long id;
 
-    @OneToOne
-    private PaymentDetails paymentDetails;
-    @ManyToOne
-    private Receiver receiverEntity;
-
-    @ManyToOne
+    @Embedded
     private Customer customer;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private PaymentDetails paymentDetails;
 
     private LocalDate dateAdded;
 
     private String PCP;
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
     public Long getId() {
         return id;
@@ -42,6 +35,14 @@ public class Transaction {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public PaymentDetails getPaymentDetails() {
@@ -52,14 +53,6 @@ public class Transaction {
         this.paymentDetails = paymentDetails;
     }
 
-    public Receiver getReceiverEntity() {
-        return receiverEntity;
-    }
-
-    public void setReceiverEntity(Receiver receiverEntity) {
-        this.receiverEntity = receiverEntity;
-    }
-
     public LocalDate getDateAdded() {
         return dateAdded;
     }
@@ -67,6 +60,7 @@ public class Transaction {
     public void setDateAdded(LocalDate dateAdded) {
         this.dateAdded = dateAdded;
     }
+
     @JsonProperty("PCP")
     public String getPCP() {
         return PCP;
@@ -75,4 +69,5 @@ public class Transaction {
     public void setPCP(String PCP) {
         this.PCP = PCP;
     }
+
 }

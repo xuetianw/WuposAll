@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
 public class ComplianceController {
 
@@ -18,14 +17,14 @@ public class ComplianceController {
     private TransactionService transactionService;
 
     @GetMapping("/sendMoney")
-    public ResponseEntity<CustomResponse> sendMoneyValidation(@RequestBody  Transaction transaction) {
-        //System.out.println(transaction.getPCP());
+    public ResponseEntity<CustomResponse> sendMoneyValidation(@RequestBody Transaction transaction) {
+        // System.out.println(transaction.getPCP());
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
 
-        transactionService.validateTransaction(transaction);
-        return new ResponseEntity<>(new CustomResponse(200, "Transaction valid"), HttpStatus.ACCEPTED);
+        Long added = transactionService.validateTransaction(transaction);
+        return new ResponseEntity<>(new CustomResponse(added, "Transaction valid"), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/transactions")
@@ -33,7 +32,6 @@ public class ComplianceController {
         List<Transaction> transactions = transactionService.getAllTransactions();
         return ResponseEntity.ok(transactions);
     }
-
 
     @PostMapping("/transactions")
     public ResponseEntity<String> createTransaction(@RequestBody Transaction transaction) {
@@ -50,7 +48,8 @@ public class ComplianceController {
     @PostMapping("/processTransaction")
     public ResponseEntity<String> processTransaction(@RequestBody Transaction transaction) {
         // Deserializes into the DTO
-        // ex. String firstName = transactionRequest.getCustomerEntity().getName().getFirstName();
+        // ex. String firstName =
+        // transactionRequest.getCustomerEntity().getName().getFirstName();
         if (transaction == null) {
             return ResponseEntity.badRequest().body("Failed to process transaction");
         }
@@ -59,7 +58,6 @@ public class ComplianceController {
             return ResponseEntity.ok("Transaction processed successfully");
         }
     }
-
 
     @DeleteMapping("/transactions/{id}")
     public ResponseEntity<String> deleteTransaction(@PathVariable Long id) {

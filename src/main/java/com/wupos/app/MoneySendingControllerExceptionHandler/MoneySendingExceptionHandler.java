@@ -12,20 +12,17 @@ import java.util.Map;
 
 @ControllerAdvice
 public class MoneySendingExceptionHandler {
-
-
-    @Value("#{${BlazeRespondCode}}")
-    private Map<String, String> blazeErrorCode;
+    @Value("${internalErrorCode}")
+    private String internalErrorCode;
 
     @ExceptionHandler
     private ResponseEntity<?> responseEntity(BlazeRespondException e) {
         String[] mgs = e.getMessage().split(",");
         return ResponseEntity.ok(CustomRespond.builder().code(mgs[0]).message(mgs[1]).build());
     }
-
     @ExceptionHandler
-    private ResponseEntity<?> responseEntity(BlazeException e) {
-//        System.out.println(e.getClass());
-        return ResponseEntity.ok(CustomRespond.builder().code(blazeErrorCode.get("internalError")).message(e.getMessage()).build());
+    private ResponseEntity<?> responseEntity(Exception e) {
+        return ResponseEntity.ok(CustomRespond.builder().code(internalErrorCode).message(e.getMessage()).build());
     }
+
 }

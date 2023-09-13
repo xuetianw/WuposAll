@@ -2,6 +2,7 @@ package com.wupos.app.service.impl;
 
 import com.wupos.app.customeException.BlazeException;
 import com.wupos.app.customeException.BlazeRespondException;
+import com.wupos.app.customeException.RtraException;
 import com.wupos.app.model.sendmoneyValidation.blaze.returning.CustomRespond;
 import com.wupos.app.model.sendmoneyValidation.blaze.sendingrequest.RiskRequest;
 import com.wupos.app.service.MoneySendingService;
@@ -52,6 +53,26 @@ public class MoneySendingServiceImpl implements MoneySendingService {
         if (map == null) return;
         for (Map.Entry<String, String> entry : map.entrySet()) {
             System.out.println("key: " + entry.getKey() + "value " + entry.getValue());
+        }
+    }
+
+    @Override
+    public String checkCompliance(RiskRequest transaction) {
+        try {
+            CustomRespond customRespond = webclient.build()
+                    .post()
+                    .uri("http://localhost:8083/sendMoney")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(BodyInserters.fromValue(transaction))
+                    .retrieve()
+                    .bodyToMono(CustomRespond.class)
+                    .block();
+            if (!customRespond.getCode().equals(successCode)) {
+                throw new RtraException(map.get(customRespond.getCode()), customRespond.getMessage());
+            }
+            return customRespond.getMessage();
+        } catch (Exception e) {
+            throw new RtraException(e.getMessage());
         }
     }
 }

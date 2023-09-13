@@ -13,19 +13,20 @@ public class ControllerExceptionHandler {
 
     @ExceptionHandler(OverAmountLimitException.class)
     public ResponseEntity<CustomResponse> handleOverAmountLimitException(OverAmountLimitException e) {
-        return new ResponseEntity<>(new CustomResponse(101, e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponse("101", e.getMessage()), HttpStatus.OK);
 
     }
 
     @ExceptionHandler(OverMonthlyAmountLimitException.class)
     public ResponseEntity<CustomResponse> handleOverMonthlyAmountLimitException(OverMonthlyAmountLimitException e) {
-        return new ResponseEntity<>(new CustomResponse(102, e.getMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new CustomResponse("102", e.getMessage()), HttpStatus.OK);
 
     }
 
     @ExceptionHandler(OverMonthlyTransactionsLimitException.class)
-    public ResponseEntity<CustomResponse> handleOverMonthlyTransactionsLimitException(OverMonthlyTransactionsLimitException e) {
-        return new ResponseEntity<>(new CustomResponse(103, e.getMessage()), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<CustomResponse> handleOverMonthlyTransactionsLimitException(
+            OverMonthlyTransactionsLimitException e) {
+        return new ResponseEntity<>(new CustomResponse("103", e.getMessage()), HttpStatus.OK);
 
     }
 }

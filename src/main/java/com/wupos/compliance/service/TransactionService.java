@@ -15,7 +15,7 @@ import java.util.List;
 public class TransactionService {
     // transactions repo
     private static final int BUFFER = 100;
-    private static final int TRANSACTION_LIMIT = 1000;
+    private static final int TRANSACTION_LIMIT = 2000;
     private static final int TRANSACTION_MONTHLY_AMOUNT_LIMIT = 10000;
     private static final int TRANSACTION_NUMBER_LIMIT = 3;
     private TransactionDAO transactionDAO;
@@ -27,7 +27,7 @@ public class TransactionService {
     }
 
     private boolean validatePaymentAmount(Transaction transaction) {
-        int sentAmount = Integer.parseInt(transaction.getPaymentDetails().getSendAmount()) / BUFFER;
+        double sentAmount = transaction.getPaymentDetails().getSendAmount() / BUFFER;
 
         if (sentAmount > TRANSACTION_LIMIT && transaction.getCustomer().getCompliance() == null) { // get number from
                                                                                                    // config
@@ -42,12 +42,11 @@ public class TransactionService {
         LocalDate today = LocalDate.now();
         LocalDate monthAgo = today.minusDays(30);
 
-        int monthlyTransaction = Integer.parseInt(transaction.getPaymentDetails().getSendAmount()) / BUFFER;
+        double monthlyTransaction = transaction.getPaymentDetails().getSendAmount() / BUFFER;
         for (Transaction transactionByUser : userTransactions) {
             LocalDate date = transactionByUser.getDateAdded();
             if (date.isAfter(monthAgo) && date.isBefore(today) || date.isEqual(today)) {
-                monthlyTransaction += Integer.parseInt(transactionByUser.getPaymentDetails().getSendAmount());
-                System.out.println(monthlyTransaction);
+                monthlyTransaction += transactionByUser.getPaymentDetails().getSendAmount();
             }
 
             if (monthlyTransaction > TRANSACTION_MONTHLY_AMOUNT_LIMIT
@@ -100,7 +99,7 @@ public class TransactionService {
         }
     }
 
-    public Long validateTransaction(Transaction transaction) {
+    public String validateTransaction(Transaction transaction) {
         // validations
         validatePaymentAmount(transaction);
         validateMonthlyLimitNumber(transaction);
@@ -109,14 +108,14 @@ public class TransactionService {
         // save transaction to database
         saveTransaction(transaction);
         transactionDAO.save(transaction);
-        return transaction.getId();
+        return String.valueOf(transaction.getId());
     }
 
     private Transaction saveTransaction(Transaction transaction) {
         LocalDate now = LocalDate.now();
         transaction.setDateAdded(now);
-        int sentAmount = Integer.parseInt(transaction.getPaymentDetails().getSendAmount()) / BUFFER;
-        transaction.getPaymentDetails().setSendAmount(String.valueOf(sentAmount));
+        double sentAmount = transaction.getPaymentDetails().getSendAmount() / BUFFER;
+        transaction.getPaymentDetails().setSendAmount(sentAmount);
         return transaction;
     }
 }

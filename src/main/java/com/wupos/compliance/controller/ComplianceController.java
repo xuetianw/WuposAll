@@ -16,15 +16,15 @@ public class ComplianceController {
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping("/sendMoney")
+    @PostMapping("/sendMoney")
     public ResponseEntity<CustomResponse> sendMoneyValidation(@RequestBody Transaction transaction) {
         // System.out.println(transaction.getPCP());
         if (transaction == null) {
             return ResponseEntity.notFound().build();
         }
 
-        Long added = transactionService.validateTransaction(transaction);
-        return new ResponseEntity<>(new CustomResponse(added, "Transaction valid"), HttpStatus.ACCEPTED);
+        String added = transactionService.validateTransaction(transaction);
+        return new ResponseEntity<>(new CustomResponse("0000", added), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/transactions")

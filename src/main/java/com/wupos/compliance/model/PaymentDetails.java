@@ -9,7 +9,7 @@ public class PaymentDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String sendAmount;
+    private double sendAmount;
     private String exchangeRate;
     private String fees;
     private String sendCurrency;
@@ -25,11 +25,11 @@ public class PaymentDetails {
         this.id = id;
     }
 
-    public String getSendAmount() {
+    public double getSendAmount() {
         return sendAmount;
     }
 
-    public void setSendAmount(String sendAmount) {
+    public void setSendAmount(double sendAmount) {
         this.sendAmount = sendAmount;
     }
 

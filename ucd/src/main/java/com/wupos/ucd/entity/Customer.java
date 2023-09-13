@@ -1,7 +1,10 @@
 package com.wupos.ucd.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "customer")
 public class Customer {
@@ -26,46 +29,6 @@ public class Customer {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.compliance = compliance;
-    }
-
-    public long getPcp() {
-        return pcp;
-    }
-
-    public void setPcp(long pcp) {
-        this.pcp = pcp;
-    }
-
-    public Name getName() {
-        return name;
-    }
-
-    public void setName(Name name) {
-        this.name = name;
-    }
-
-    public PhoneNumber getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(PhoneNumber phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public Compliance getCompliance() {
-        return compliance;
-    }
-
-    public void setCompliance(Compliance compliance) {
         this.compliance = compliance;
     }
 

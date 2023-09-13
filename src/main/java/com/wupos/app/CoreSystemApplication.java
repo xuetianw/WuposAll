@@ -13,7 +13,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 		@PropertySource("classpath:blazeErrorCodes.properties"),
 		@PropertySource("classpath:internalServerError.properties"),
         @PropertySource("classpath:responseCodes.properties"),
-		@PropertySource("classpath:rtraCodes.properties"),
+		@PropertySource("classpath:rtraCodes.properties")
 
 })
 

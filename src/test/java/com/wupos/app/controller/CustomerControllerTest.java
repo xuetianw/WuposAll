@@ -19,7 +19,7 @@ public class CustomerControllerTest {
 
     @Test
     void when_pcp_in_db_then_getCustomerDetails_returns_OK() {
-        GetCustomerDetailsRequest gcdRequest = new GetCustomerDetailsRequest(new Name(), new Phone(), "ABB1");
+        GetCustomerDetailsRequest gcdRequest = new GetCustomerDetailsRequest(new Name(), new Phone(), "1");
         assertDoesNotThrow(() -> customerController.getCustomerDetails(gcdRequest));
 
         ResponseEntity<?> response = customerController.getCustomerDetails(gcdRequest);
@@ -28,7 +28,7 @@ public class CustomerControllerTest {
 
     @Test
     void when_pcp_not_in_db_then_getCustomerDetails_returns_NOT_FOUND() {
-        GetCustomerDetailsRequest gcdRequest = new GetCustomerDetailsRequest(new Name(), new Phone(), "ABB2");
+        GetCustomerDetailsRequest gcdRequest = new GetCustomerDetailsRequest(new Name(), new Phone(), "2");
         assertDoesNotThrow(() -> customerController.getCustomerDetails(gcdRequest));
 
         ResponseEntity<?> response = customerController.getCustomerDetails(gcdRequest);
@@ -37,7 +37,7 @@ public class CustomerControllerTest {
 
     @Test
     void when_invalid_pcp_then_getCustomerDetails_returns_BAD_REQUEST() {
-        GetCustomerDetailsRequest gcdRequest = new GetCustomerDetailsRequest(new Name(), new Phone(), "ABB");
+        GetCustomerDetailsRequest gcdRequest = new GetCustomerDetailsRequest(new Name(), new Phone(), "A");
         assertDoesNotThrow(() -> customerController.getCustomerDetails(gcdRequest));
 
         ResponseEntity<?> response = customerController.getCustomerDetails(gcdRequest);

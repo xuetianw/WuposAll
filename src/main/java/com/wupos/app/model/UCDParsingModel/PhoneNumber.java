@@ -1,4 +1,4 @@
-package com.wupos.app.model.returningParcingModel;
+package com.wupos.app.model.UCDParsingModel;
 
 import lombok.*;
 

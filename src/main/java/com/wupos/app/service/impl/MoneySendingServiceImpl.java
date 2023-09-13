@@ -23,8 +23,15 @@ public class MoneySendingServiceImpl implements MoneySendingService {
     @Value("#{${BlazeErrorCodes}}")
     private Map<String, String> map;
 
+    @Value("#{${rtraCodes}}")
+    private Map<String, String> rtraCodes;
+
     @Value("${successCode}")
     private String successCode;
+
+    @Value("${valid}")
+    private String validCode;
+
 
     @Autowired
     WebClient.Builder webclient;
@@ -58,7 +65,6 @@ public class MoneySendingServiceImpl implements MoneySendingService {
 
     @Override
     public String checkCompliance(RiskRequest transaction) {
-        try {
             CustomRespond customRespond = webclient.build()
                     .post()
                     .uri("http://localhost:8083/sendMoney")
@@ -67,12 +73,9 @@ public class MoneySendingServiceImpl implements MoneySendingService {
                     .retrieve()
                     .bodyToMono(CustomRespond.class)
                     .block();
-            if (!customRespond.getCode().equals(successCode)) {
-                throw new RtraException(map.get(customRespond.getCode()), customRespond.getMessage());
+            if (!customRespond.getCode().equals(validCode)) {
+                throw new RtraException(rtraCodes.get(customRespond.getCode()), customRespond.getMessage());
             }
             return customRespond.getMessage();
-        } catch (Exception e) {
-            throw new RtraException(e.getMessage());
-        }
     }
 }

@@ -30,7 +30,7 @@ public class MoneySendingServiceImpl implements MoneySendingService {
 
     @Override
     public void checkRisk(RiskRequest riskRequest) {
-        try {
+//        try {
             CustomRespond customRespond = webclient.build()
                     .post()
                     .uri("http://localhost:8082/transactionRiskDecision")
@@ -42,9 +42,9 @@ public class MoneySendingServiceImpl implements MoneySendingService {
             if (!customRespond.getCode().equals(successCode)) {
                 throw new BlazeRespondException(map.get(customRespond.getCode()), customRespond.getMessage());
             }
-        } catch (Exception e) {
-            throw new BlazeException(e.getMessage());
-        }
+//        } catch (Exception e) {
+//            throw new BlazeException(e.getMessage());
+//        }
     }
 
     @PostConstruct

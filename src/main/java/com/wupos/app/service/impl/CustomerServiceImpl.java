@@ -1,52 +1,58 @@
 package com.wupos.app.service.impl;
 
-import com.wupos.app.exceptions.AgentNotFoundException;
-import com.wupos.app.exceptions.WrongPasswordException;
-import com.wupos.app.model.agent.AgentCredentials;
-import com.wupos.app.model.agent.AgentDetails;
+import com.wupos.app.customResponse.CustomResponse;
+import com.wupos.app.customResponse.GetCustomerDetailsResponse;
 import com.wupos.app.model.customerResponse.AddCustomer;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
-import com.wupos.app.model.returningParcingModel.Customer;
-import com.wupos.app.repository.AgentCredentialsRepository;
-import com.wupos.app.repository.AgentDetailsRepository;
+import com.wupos.app.model.UCDParsingModel.Customer;
 import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.Map;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+    @Value("#{${responseCodes}}")
+    private Map<String, String> responseCodes;
+
 
     @Autowired
     WebClient.Builder webClient;
 
 
-    //TODO return error code + message in response body
     public ResponseEntity<?> getCustomerDetails(GetCustomerDetailsRequest request) {
         String pcp = request.getPCP();
         if (!isValidPCP(pcp)) {
-            return new ResponseEntity<>("Invalid PCP ID", HttpStatus.BAD_REQUEST);
+            CustomResponse response = new CustomResponse(responseCodes.get("invalidPCP"), "Invalid PCP");
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
 
         try {
-            Customer returnedData = webClient.build()
+            Customer customer = webClient.build()
                     .get()
-                    .uri("http://localhost:8081/getUser/{pcp}", pcp.substring(3))
+                    .uri("http://localhost:8081/getUser/{pcp}", pcp)
                     .retrieve()
                     .bodyToMono(Customer.class)
                     .block();
-            return new ResponseEntity<>(returnedData, HttpStatus.OK);
-        } catch (WebClientResponseException e) {
-            return new ResponseEntity<>(e.getResponseBodyAsString(), e.getStatusCode());
+            return new ResponseEntity<>(GetCustomerDetailsResponse.builder().customer(customer).pcp(pcp).build(),
+                    HttpStatus.OK);
+        } catch (WebClientResponseException.NotFound e) {
+            CustomResponse response =
+                    new CustomResponse(responseCodes.get("userNotFound"), e.getResponseBodyAsString());
+            return new ResponseEntity<>(response, e.getStatusCode());
+        } catch (WebClientResponseException.BadRequest e) {
+            CustomResponse response =
+                    new CustomResponse(responseCodes.get("internalServerError"), e.getResponseBodyAsString());
+            return new ResponseEntity<>(response, e.getStatusCode());
         }
     }
 
@@ -86,14 +92,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private boolean isValidPCP(String pcp) {
-        if (pcp.length() < 4) {
-            return false;
-        }
-        if (!pcp.substring(0,3).equalsIgnoreCase("ABB")) {
-            return false;
-        }
+//        if (pcp.length() < 4) {
+//            return false;
+//        }
+//        if (!pcp.substring(0,3).equalsIgnoreCase("ABB")) {
+//            return false;
+//        }
         try {
-            Long.parseLong(pcp.substring(3));
+            Long.parseLong(pcp);
         } catch (NumberFormatException e) {
             return false;
         }

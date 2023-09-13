@@ -8,4 +8,8 @@ import org.springframework.stereotype.Service;
 
 public interface MoneySendingService {
     void checkRisk(RiskRequest riskRequest);
+
+    String checkCompliance(RiskRequest transaction);
+
+
 }

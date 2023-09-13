@@ -1,10 +1,8 @@
 package com.wupos.app.controller;
 
-import com.wupos.app.model.agent.AgentCredentials;
-import com.wupos.app.model.agent.AgentDetails;
 import com.wupos.app.model.parsingModel.GetCustomerDetailsRequest;
-import com.wupos.app.model.returningParcingModel.Customer;
-import com.wupos.app.model.returningParcingModel.CustomerPayload;
+import com.wupos.app.model.UCDParsingModel.Customer;
+import com.wupos.app.model.UCDParsingModel.CustomerPayload;
 import com.wupos.app.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,5 @@
-package com.wupos.app.model.returningParcingModel;
+package com.wupos.app.model.UCDParsingModel;
+
 
 import lombok.*;
 
@@ -8,6 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 public class Customer {
+
     private long pcp;
     private Name name;
     private PhoneNumber phoneNumber;
@@ -19,7 +21,6 @@ public class Customer {
     @Override
     public String toString() {
         return "User{" +
-                "pcp='" + pcp + '\'' +
                 ", name=" + name +
                 ", phoneNumber=" + phoneNumber +
                 ", address=" + address +

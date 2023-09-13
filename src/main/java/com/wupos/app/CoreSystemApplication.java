@@ -7,14 +7,15 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.web.reactive.function.client.WebClient;
 
-@SpringBootApplication
+
 
 @PropertySources({
 		@PropertySource("classpath:blazeErrorCodes.properties"),
-		@PropertySource("classpath:internalServerError.properties")
+		@PropertySource("classpath:internalServerError.properties"),
+        @PropertySource("classpath:responseCodes.properties")
 })
 
-
+@SpringBootApplication
 public class CoreSystemApplication {
 
 	public static void main(String[] args) {

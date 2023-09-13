@@ -15,9 +15,9 @@ import java.util.List;
 public class TransactionService {
     // transactions repo
     private static final int BUFFER = 100;
-    private static final int TRANSACTION_LIMIT = 2000;
+    private static final int TRANSACTION_LIMIT = 1000;
     private static final int TRANSACTION_MONTHLY_AMOUNT_LIMIT = 10000;
-    private static final int TRANSACTION_NUMBER_LIMIT = 3;
+    private static final int TRANSACTION_NUMBER_LIMIT = 10;
     private TransactionDAO transactionDAO;
 
     // insert repo

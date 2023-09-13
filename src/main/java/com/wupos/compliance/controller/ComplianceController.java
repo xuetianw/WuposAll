@@ -24,7 +24,7 @@ public class ComplianceController {
         }
 
         String added = transactionService.validateTransaction(transaction);
-        return new ResponseEntity<>(new CustomResponse("0000", added), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(new CustomResponse("100", added), HttpStatus.ACCEPTED);
     }
 
     @GetMapping("/transactions")

@@ -11,9 +11,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @PropertySources({
 		@PropertySource("classpath:blazeErrorCodes.properties"),
-		@PropertySource("classpath:internalServerError.properties"),
         @PropertySource("classpath:responseCodes.properties"),
-		@PropertySource("classpath:rtraCodes.properties")
+		@PropertySource("classpath:rtraCodes.properties"),
+        @PropertySource("classpath:fees.properties"),
+        @PropertySource("classpath:feeErrorCodes.properties"),
+        @PropertySource("classpath:internalServerError.properties")
 })
 
 @SpringBootApplication

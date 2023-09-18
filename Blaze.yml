@@ -1,0 +1,10 @@
+blaze:
+  MoneyLaundering:
+    lastnames: Martin, Roy
+
+  blackListedPeople:
+    lastnames: Smith, Brown, Tremblay
+
+  sanctionedCountries: RU, KP
+
+  sendAmountLimit: 200000

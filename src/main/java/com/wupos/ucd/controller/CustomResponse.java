@@ -1,6 +1,11 @@
 package com.wupos.ucd.controller;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class CustomResponse {
+    @Getter
+    @Setter
     public static class UserResponse {
         private long pcp;
         private String message;
@@ -17,28 +22,32 @@ public class CustomResponse {
             this.message = message;
         }
 
-        public long getPcp() {
-            return pcp;
-        }
-
-        public void setPcp(long pcp) {
-            this.pcp = pcp;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
-        }
-
         @Override
         public String toString() {
             return "AddUserResponse{" +
                 "pcp='" + pcp + '\'' +
                 ", message='" + message + '\'' +
                 '}';         
+        }
+    }
+
+    @Getter
+    @Setter
+    public static class ErrorResponse {
+        private int code;
+        private String message;
+
+        public ErrorResponse(int code, String message) {
+            this.code = code;
+            this.message = message;
+        }
+
+        @Override
+        public String toString() {
+            return "ErrorResponse{" +
+                    "code=" + code +
+                    ", message='" + message + '\'' +
+                    '}';
         }
     }
 }

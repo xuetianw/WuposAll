@@ -10,14 +10,19 @@ import lombok.*;
 public class Address {
     @Column(name = "address_line_1")
     private String addressLine1;
+
     @Column(name = "address_line_2")
     private String addressLine2;
+
     @Column(name = "pincode")
     private String pincode;
+
     @Column(name = "city")
     private String city;
+
     @Column(name = "state")
     private String state;
+
     @Column(name = "country")
     private String country;
 

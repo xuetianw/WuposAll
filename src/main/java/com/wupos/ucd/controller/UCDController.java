@@ -17,25 +17,19 @@ public class UCDController {
     @Autowired
     private ComplianceServiceImpl complianceService;
 
-    @GetMapping("/hello")
+    @GetMapping("/")
     public String helloWorld() {
-        return "Hello, World!";
+       return "Hello, World!";
     }
 
-    @RequestMapping(value = "/addOrUpdateUser", method = { RequestMethod.POST, RequestMethod.PUT })
+    @RequestMapping(value="/addOrUpdateUser", method={RequestMethod.POST, RequestMethod.PUT})
     public ResponseEntity<?> addUser(@RequestBody Customer customer) {
-        try {
-            long pcp = userService.addOrUpdateUser(customer);
-            if (pcp == 0) {
-                return new ResponseEntity<>("Successfully updated", HttpStatus.OK);
-            } else {
-                return new ResponseEntity<>(new CustomResponse.UserResponse(pcp, "Successfully created"),
-                        HttpStatus.CREATED);
-            }
-
-        } catch (Exception e) {
-            System.err.println(e);
-            return new ResponseEntity<>("Failure: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+        long pcp = userService.addOrUpdateUser(customer);
+        if (pcp == 0) {
+            return new ResponseEntity<>("Successfully updated", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new CustomResponse.UserResponse(pcp, "Successfully created"),
+                HttpStatus.CREATED);
         }
     }
 

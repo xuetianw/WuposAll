@@ -13,10 +13,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private ComplianceRepository complianceRepository;
 
-    private void saveUser(Customer savedUser,
-        Customer user, 
-        UserRepository userRepository, 
-        ComplianceRepository complianceRepository) {
+    private void saveUser(Customer savedUser, Customer user, UserRepository userRepository, ComplianceRepository complianceRepository) {
             savedUser.setName(user.getName());
             savedUser.setPhoneNumber(user.getPhoneNumber());
             savedUser.setAddress(user.getAddress());
@@ -27,8 +24,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public long addOrUpdateUser(Customer user) {
-        System.out.println("user: " + user);
-        System.out.println(user.getPcp());
+        System.out.println(user);
         Customer savedUser = userRepository.findByPcp(user.getPcp());
         long pcp;
 

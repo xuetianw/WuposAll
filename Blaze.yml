@@ -3,7 +3,7 @@ blaze:
     lastnames: Martin, Roy
 
   blackListedPeople:
-    lastnames: Smith, Brown, Tremblay
+    lastnames: Smith, Brown, Tremblay, Wu
 
   sanctionedCountries: RU, KP
 

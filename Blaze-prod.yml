@@ -1,0 +1,10 @@
+blaze:
+  MoneyLaundering:
+    lastnames: prodMartin, prodRoy
+
+  blackListedPeople:
+    lastnames: prodSmith, prodBrown, Tremblay, Wu
+
+  sanctionedCountries: RU, KP
+
+  sendAmountLimit: 200000

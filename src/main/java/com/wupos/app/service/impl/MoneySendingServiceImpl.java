@@ -32,6 +32,9 @@ public class MoneySendingServiceImpl implements MoneySendingService {
     @Value("${valid}")
     private String validCode;
 
+//    @Value("${blazeUrl}")
+//    private String blazeURL;
+
 
     @Autowired
     WebClient.Builder webclient;
@@ -41,7 +44,7 @@ public class MoneySendingServiceImpl implements MoneySendingService {
 //        try {
             CustomRespond customRespond = webclient.build()
                     .post()
-                    .uri("http://localhost:8082/transactionRiskDecision")
+                    .uri("http://blaze" + "/transactionRiskDecision")
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromValue(riskRequest))
                     .retrieve()
@@ -67,7 +70,7 @@ public class MoneySendingServiceImpl implements MoneySendingService {
     public String checkCompliance(RiskRequest transaction) {
             CustomRespond customRespond = webclient.build()
                     .post()
-                    .uri("http://localhost:8083/sendMoney")
+                    .uri("http://RTRA/sendMoney")
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(BodyInserters.fromValue(transaction))
                     .retrieve()

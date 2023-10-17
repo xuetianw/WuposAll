@@ -2,6 +2,7 @@ package com.wupos.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
@@ -26,6 +27,7 @@ public class CoreSystemApplication {
 	}
 
 	@Bean
+	@LoadBalanced
 	WebClient.Builder getWebClientBuilder() {
 		return WebClient.builder();
 	}

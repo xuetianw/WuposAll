@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             Customer customer = webClient.build()
                     .get()
-                    .uri("http://localhost:8081/getUser/{pcp}", pcp)
+                    .uri("http://UCD/getUser/{pcp}", pcp)
                     .retrieve()
                     .bodyToMono(Customer.class)
                     .block();
@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             AddCustomer response = webClient.build()
                 .post()
-                .uri("http://localhost:8081/addOrUpdateUser")
+                .uri("http://UCD/addOrUpdateUser")
                 .accept(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(user))
                 .retrieve()
@@ -78,7 +78,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             String response = webClient.build()
                 .put()
-                .uri("http://localhost:8081/addOrUpdateUser")
+                .uri("http://UCD/addOrUpdateUser")
                 .accept(MediaType.APPLICATION_JSON)
                 .body(BodyInserters.fromValue(user))
                 .retrieve()

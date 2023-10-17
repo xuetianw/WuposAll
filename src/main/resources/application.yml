@@ -3,7 +3,7 @@
 #
 #  blackListedPeople:
 #    lastnames:
-#      Smith, Brown, Tremblay
+#      Smith, Brown, Tremblay, Fred
 #
 #  MoneyLaundering:
 #    lastnames:
@@ -26,3 +26,11 @@
 
 server:
   port: 8082
+
+
+spring:
+  application:
+    name: Blaze
+
+  config:
+    import: optional:configserver:http://localhost:8888
